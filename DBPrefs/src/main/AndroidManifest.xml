@@ -1,0 +1,16 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="info.dbprefs.lib">
+
+    <application
+        android:allowBackup="true"
+        android:label="@string/app_name">
+
+        <!--or using an own ContentProvider https://github.com/pardom/ActiveAndroid/issues/536 -->
+        <provider
+            android:name="com.raizlabs.android.dbflow.runtime.StubContentProvider"
+            android:authorities="${applicationId}.authority"
+            android:exported="false" />
+
+    </application>
+
+</manifest>
