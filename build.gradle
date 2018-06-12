@@ -1,5 +1,5 @@
 buildscript {
-    ext.kotlin_version = '1.2.41'
+    ext.kotlin_version = '1.2.50'
     repositories {
         google()
         jcenter()
@@ -34,4 +34,5 @@ ext {
     defaultSupportLibVersion = "27.1.1"
     dbflow_version = "4.2.4"
     sqlcipher_version = "3.5.9"
+    androidTools = '26.1.1'
 }

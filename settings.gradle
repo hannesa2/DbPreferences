@@ -1,1 +1,2 @@
 include ':sample', ':DBPrefs'
+include ':DBPrefs-lint'
