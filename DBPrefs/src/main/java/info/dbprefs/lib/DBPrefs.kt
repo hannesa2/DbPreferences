@@ -8,10 +8,10 @@ import com.raizlabs.android.dbflow.config.FlowConfig
 import com.raizlabs.android.dbflow.config.FlowManager
 import com.raizlabs.android.dbflow.runtime.ContentResolverNotifier
 import com.raizlabs.android.dbflow.sql.language.SQLite
-import info.dbprefs.lib.database.DBFlowDatabase
-import info.dbprefs.lib.database.SQLCipherHelper
-import info.dbprefs.lib.database.model.Preference
-import info.dbprefs.lib.database.model.Preference_Table
+import info.dbprefs.lib.dbflow.DBFlowDatabase
+import info.dbprefs.lib.dbflow.SQLCipherHelper
+import info.dbprefs.lib.dbflow.model.Preference
+import info.dbprefs.lib.dbflow.model.Preference_Table
 import java.lang.reflect.Type
 
 class DBPrefs {

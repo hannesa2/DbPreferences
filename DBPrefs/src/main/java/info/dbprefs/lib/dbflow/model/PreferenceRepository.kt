@@ -1,4 +1,4 @@
-package info.dbprefs.lib.database.model
+package info.dbprefs.lib.dbflow.model
 
 import com.raizlabs.android.dbflow.sql.language.Select
 

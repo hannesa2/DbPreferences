@@ -1,4 +1,4 @@
-package info.dbprefs.lib.database
+package info.dbprefs.lib.dbflow
 
 import com.raizlabs.android.dbflow.converter.TypeConverter
 import java.util.*

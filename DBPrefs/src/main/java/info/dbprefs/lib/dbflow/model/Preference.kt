@@ -1,9 +1,9 @@
-package info.dbprefs.lib.database.model
+package info.dbprefs.lib.dbflow.model
 
 import com.raizlabs.android.dbflow.annotation.*
 import com.raizlabs.android.dbflow.structure.BaseModel
 
-import info.dbprefs.lib.database.DBFlowDatabase
+import info.dbprefs.lib.dbflow.DBFlowDatabase
 import java.util.*
 
 @Table(database = DBFlowDatabase::class,
