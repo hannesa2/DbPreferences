@@ -51,7 +51,7 @@ android {
 }
 
 dependencies {
-    implementation 'com.android.support.constraint:constraint-layout:1.1.1'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     testImplementation 'junit:junit:4.12'
     implementation 'com.android.support:multidex:1.0.3' // minsdk <= 20
     implementation "com.android.support:appcompat-v7:${defaultSupportLibVersion}"
@@ -67,4 +67,12 @@ dependencies {
     implementation "com.github.Raizlabs.DBFlow:dbflow-rx2:${dbflow_version}"
     implementation "com.github.Raizlabs.DBFlow:dbflow-rx2-kotlinextensions:${dbflow_version}"
     implementation "net.zetetic:android-database-sqlcipher:${sqlcipher_version}@aar"
+
+    // room
+    //implementation "com.commonsware.cwac:saferoom:0.4.2"
+    implementation 'com.github.hannesa2:cwac-saferoom:runtime1.1.1-SNAPSHOT'
+    implementation "android.arch.persistence.room:runtime:$room"
+    kapt "android.arch.persistence.room:compiler:$roomruntime"
+    implementation "android.arch.persistence.room:rxjava2:$room"
+    implementation "android.arch.persistence.room:testing:$room"
 }

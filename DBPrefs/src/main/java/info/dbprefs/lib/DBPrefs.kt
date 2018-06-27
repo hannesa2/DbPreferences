@@ -1,13 +1,17 @@
 package info.dbprefs.lib
 
+import android.arch.persistence.room.Room
 import android.content.Context
+import android.provider.Settings
 import android.util.Log
+import com.commonsware.cwac.saferoom.SafeHelperFactory
 import com.google.gson.Gson
 import com.raizlabs.android.dbflow.config.DatabaseConfig
 import com.raizlabs.android.dbflow.config.FlowConfig
 import com.raizlabs.android.dbflow.config.FlowManager
 import com.raizlabs.android.dbflow.runtime.ContentResolverNotifier
 import com.raizlabs.android.dbflow.sql.language.SQLite
+import info.audio.analysis.room.AppDatabase
 import info.dbprefs.lib.dbflow.DBFlowDatabase
 import info.dbprefs.lib.dbflow.SQLCipherHelper
 import info.dbprefs.lib.dbflow.model.Preference
@@ -111,7 +115,14 @@ class DBPrefs {
     }
 
     companion object {
+        lateinit var appDatabase: AppDatabase
+
+        fun init(context: Context) {
+            init(context, Settings.Secure.getString(context.getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID))
+        }
+
         fun init(context: Context, password: String) {
+            // dbflow
             FlowManager.init(FlowConfig.Builder(context)
                     .addDatabaseConfig(DatabaseConfig.Builder(DBFlowDatabase::class.java)
                             .modelNotifier(ContentResolverNotifier(BuildConfig.APPLICATION_ID + ".authority"))
@@ -119,6 +130,12 @@ class DBPrefs {
                             .build())
                     .openDatabasesOnInit(true)
                     .build())
+
+            // Room
+            val factory = SafeHelperFactory(password.toCharArray())
+            appDatabase = Room.databaseBuilder(context, AppDatabase::class.java, AppDatabase.ROOM_DATABASE_NAME)
+                    .openHelperFactory(factory)
+                    .build();
         }
 
         fun destroy() {
