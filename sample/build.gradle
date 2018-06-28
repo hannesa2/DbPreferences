@@ -60,17 +60,8 @@ dependencies {
 
     implementation project(':DBPrefs')
 
-    kapt "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
-    implementation "com.github.Raizlabs.DBFlow:dbflow:${dbflow_version}"
-    implementation "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}"
-    implementation "com.github.Raizlabs.DBFlow:dbflow-sqlcipher:${dbflow_version}"
-    implementation "com.github.Raizlabs.DBFlow:dbflow-rx2:${dbflow_version}"
-    implementation "com.github.Raizlabs.DBFlow:dbflow-rx2-kotlinextensions:${dbflow_version}"
-    implementation "net.zetetic:android-database-sqlcipher:${sqlcipher_version}@aar"
-
     // room
-    //implementation "com.commonsware.cwac:saferoom:0.4.2"
-    implementation 'com.github.hannesa2:cwac-saferoom:runtime1.1.1-SNAPSHOT'
+    implementation "com.commonsware.cwac:saferoom:0.4.2"
     implementation "android.arch.persistence.room:runtime:$room"
     kapt "android.arch.persistence.room:compiler:$roomruntime"
     implementation "android.arch.persistence.room:rxjava2:$room"

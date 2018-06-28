@@ -1,7 +1,8 @@
 package info.dbprefs.sample
 
-import com.raizlabs.android.dbflow.config.DatabaseDefinition
-import com.raizlabs.android.dbflow.structure.database.DatabaseHelperListener
+class TestClass(val memberA: String, val memberB: String) {
 
-class TestClass(public val memberA: String, public val memberB: String) {
+    override fun toString(): String {
+        return memberA+" "+memberB
+    }
 }

@@ -4,7 +4,7 @@
 [![](https://jitpack.io/v/hannesa2/DbPreferences.svg)](https://jitpack.io/#hannesa2/DbPreferences)
 
 
-An encrypted alternative to SharedPreferences. It's based on SQlite and uses sqlcipher
+An encrypted alternative to SharedPreferences. It's based on secure Room/SQlite and uses sqlcipher
 
 ### Usage
 
@@ -64,10 +64,16 @@ allprojects {
 ```
 ```Gradle
 dependencies {
-    implementation 'com.github.hannesa2:DbPreferences:1.2'
+    implementation 'com.github.hannesa2:DbPreferences:2.0'
 }
 
 ```
+
+### Performance
+
+On a Samsung S4 mini 
+* a read needs ~1 ms
+* a write needs ~  3 ms
 
 ## License 
 ```
