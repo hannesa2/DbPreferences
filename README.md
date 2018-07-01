@@ -64,7 +64,7 @@ allprojects {
 ```
 ```Gradle
 dependencies {
-    implementation 'com.github.hannesa2:DbPreferences:1.1'
+    implementation 'com.github.hannesa2:DbPreferences:1.2'
 }
 
 ```
