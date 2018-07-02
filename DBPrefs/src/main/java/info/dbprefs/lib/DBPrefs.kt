@@ -9,6 +9,7 @@ import com.google.gson.Gson
 import info.dbprefs.lib.room.AppDatabase
 import info.dbprefs.lib.room.entity.PreferenceRoom
 import io.reactivex.Completable
+import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.lang.reflect.Type
@@ -29,7 +30,7 @@ class DBPrefs {
         return putSerialized<Any>(key, mParse.toJson(value))
     }
 
-    fun <T> putSerialized(key: ConfigKey, value: String?): Boolean {
+    private fun <T> putSerialized(key: ConfigKey, value: String?): Boolean {
         if (value != null) {
             val pref = PreferenceRoom()
             pref.key = key.toString()
@@ -48,21 +49,32 @@ class DBPrefs {
         } catch (e: Exception) {
             Log.e(e.message, "Exception for class $type decoded Text: $decodedText")
         }
-
         return null
     }
 
-    private fun getSerialized(key: ConfigKey?): String? {
-        if (key == null) {
-            throw IllegalArgumentException(ERROR_KEY_CANNOT_BE_NULL)
-        }
-
-        val start = System.currentTimeMillis()
+    private fun getSerialized(key: ConfigKey): String? {
         val value = appDatabase.preferenceDao().getValue(key.toString())
         return if (value == null)
             return null
         else
             return value.value
+    }
+
+    fun <T> getFlowableValue(key: ConfigKey, type: Type): Flowable<T>? {
+        return appDatabase
+                .preferenceDao()
+                .getValueFlowable(key.toString())
+                .map {
+                    val returningClass: T?
+                    val decodedText = it.value
+                    try {
+                        returningClass = mParse.fromJson<T>(decodedText, type)
+                        Flowable.just(returningClass)
+                    } catch (e: Exception) {
+                        Log.e(e.message, "Exception for class $type decoded Text: $decodedText")
+                    }
+                    null
+                }
     }
 
     fun <T> get(key: ConfigKey, type: Type, defaultValue: T): T {
@@ -108,9 +120,7 @@ class DBPrefs {
             appDatabase.close()
         }
 
-        private val ERROR_VALUE_CANNOT_BE_NULL = "Value cannot be null"
         private val ERROR_KEY_CANNOT_BE_NULL = "Key cannot be null"
-        private val ERROR_COULD_NOT_PARSE_JSON_INTO = "could not parse json into "
     }
 
 }
