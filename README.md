@@ -49,6 +49,18 @@ val testClass = DBPrefs().get<TestClass>(MyConfigKeys.KEY_OBJECT_A, TestClass::c
 DBPrefs().put(MyConfigKeys.KEY_OBJECT_A, testClassToStore)
 ```
 
+Handle a list
+###### Kotlin
+```kotlin
+//save
+DBPrefs().put(MyConfigKeys.KEY_LIST, listSource)
+
+// get
+val listType = object : TypeToken<ArrayList<TestClass>>() {
+}.type
+var myList: ArrayList<TestClass>? = DBPrefs().get(MyConfigKeys.KEY_LIST, listType)
+```
+
 That's it !
 
 ## Download 

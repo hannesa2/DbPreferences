@@ -3,7 +3,9 @@ package info.dbprefs.sample
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import com.google.gson.reflect.TypeToken
 import info.dbprefs.lib.DBPrefs
+import info.dbprefs.sample.R.id.*
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -28,19 +30,39 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        var start = System.currentTimeMillis()
-        val prefs = DBPrefs()
-        for (item: Int in 1..2000) {
-            prefs.put(MyConfigKeys.KEY_STRING, "value" + item)
-        }
-        Log.d("time test insert", (System.currentTimeMillis() - start).toString() + " ms")
-        textViewInsert.setText("time 2000 insert " + (System.currentTimeMillis() - start).toString() + " ms")
+        buttonPerformance.setOnClickListener {
+            textViewInsert.setText("")
+            textViewRead.setText("")
+            run {
+                var start = System.currentTimeMillis()
+                val prefs = DBPrefs()
+                for (item: Int in 1..2000) {
+                    prefs.put(MyConfigKeys.KEY_STRING, "value" + item)
+                }
+                textViewInsert.setText("time 2000 insert " + (System.currentTimeMillis() - start).toString() + " ms")
 
-        start = System.currentTimeMillis()
-        for (item: Int in 1..2000) {
-            var value = prefs.get<String>(MyConfigKeys.KEY_STRING, String::class.java)
+                start = System.currentTimeMillis()
+                for (item: Int in 1..2000) {
+                    var value: String? = prefs.get(MyConfigKeys.KEY_STRING, String::class.java)
+                }
+                textViewRead.setText("time 2000 get " + (System.currentTimeMillis() - start).toString() + " ms")
+            }
         }
-        Log.d("time test get", (System.currentTimeMillis() - start).toString() + " ms")
-        textViewRead.setText("time 2000 get " + (System.currentTimeMillis() - start).toString() + " ms")
+
+        buttonList.setOnClickListener {
+            run {
+                val listSource: ArrayList<TestClass> = ArrayList()
+                listSource.add(TestClass("A", "aa"))
+                listSource.add(TestClass("B", "bb"))
+                DBPrefs().put(MyConfigKeys.KEY_LIST, listSource)
+
+                val listType = object : TypeToken<ArrayList<TestClass>>() {
+                }.type
+                var myList: ArrayList<TestClass>? = DBPrefs().get(MyConfigKeys.KEY_LIST, listType)
+                textViewInsert.setText("")
+                textViewRead.setText("read list has " + myList?.size.toString() + " items")
+            }
+        }
+
     }
 }

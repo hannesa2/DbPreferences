@@ -4,7 +4,7 @@ import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 import java.lang.reflect.Type
 
-internal class GsonParser(private val gson: Gson) : Parse {
+class GsonParser(private val gson: Gson) : Parse {
 
     @Throws(JsonSyntaxException::class)
     override fun <T> fromJson(content: String, type: Type): T? {
