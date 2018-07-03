@@ -88,10 +88,19 @@ class DBPrefs {
         appDatabase.preferenceDao().deleteByKey(key.toString())
     }
 
+    fun clearAll() {
+        appDatabase.clearAllTables()
+    }
+
+    fun close() {
+        appDatabase.close()
+    }
+
     fun contains(key: ConfigKey): Boolean {
         return appDatabase.preferenceDao().countKey(key.toString()) == 1
     }
 
+    @Suppress("unused")
     companion object {
         lateinit var appDatabase: AppDatabase
 

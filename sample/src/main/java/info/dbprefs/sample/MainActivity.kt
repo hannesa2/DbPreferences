@@ -1,15 +1,15 @@
 package info.dbprefs.sample
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import com.google.gson.reflect.TypeToken
 import info.dbprefs.lib.DBPrefs
-import info.dbprefs.sample.R.id.*
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -43,6 +43,7 @@ class MainActivity : AppCompatActivity() {
 
                 start = System.currentTimeMillis()
                 for (item: Int in 1..2000) {
+                    @Suppress("UNUSED_VARIABLE")
                     var value: String? = prefs.get(MyConfigKeys.KEY_STRING, String::class.java)
                 }
                 textViewRead.setText("time 2000 get " + (System.currentTimeMillis() - start).toString() + " ms")
@@ -58,7 +59,7 @@ class MainActivity : AppCompatActivity() {
 
                 val listType = object : TypeToken<ArrayList<TestClass>>() {
                 }.type
-                var myList: ArrayList<TestClass>? = DBPrefs().get(MyConfigKeys.KEY_LIST, listType)
+                val myList: ArrayList<TestClass>? = DBPrefs().get(MyConfigKeys.KEY_LIST, listType)
                 textViewInsert.setText("")
                 textViewRead.setText("read list has " + myList?.size.toString() + " items")
             }
