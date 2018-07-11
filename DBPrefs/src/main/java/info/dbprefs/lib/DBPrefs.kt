@@ -133,12 +133,14 @@ class DBPrefs {
         } else storage
     }
 
-    fun remove(key: ConfigKey) {
+    fun remove(key: ConfigKey): Boolean {
         appDatabase.preferenceDao().deleteByKey(key.toString())
+        return true
     }
 
-    fun remove(key: String) {
+    fun remove(key: String): Boolean {
         appDatabase.preferenceDao().deleteByKey(key)
+        return true
     }
 
     fun clearAll() {
