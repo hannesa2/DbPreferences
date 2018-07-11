@@ -38,7 +38,7 @@ class DBPrefs {
     private fun putSerialized(key: ConfigKey, value: String?): Boolean {
         if (value != null) {
             val pref = PreferenceRoom()
-            pref.key = key.toString()
+            pref.key = key.keyname()
             pref.value = value
             appDatabase.preferenceDao().insert(pref)
         }
@@ -93,7 +93,7 @@ class DBPrefs {
     }
 
     private fun getSerialized(key: ConfigKey): String? {
-        val value = appDatabase.preferenceDao().getValue(key.toString())
+        val value = appDatabase.preferenceDao().getValue(key.keyname())
         return if (value == null)
             return null
         else
@@ -112,7 +112,7 @@ class DBPrefs {
     fun <T> getFlowableValue(key: ConfigKey, type: Type): Flowable<T>? {
         return appDatabase
                 .preferenceDao()
-                .getValueFlowable(key.toString())
+                .getValueFlowable(key.keyname())
                 .map {
                     val returningClass: T?
                     val decodedText = it.value
@@ -134,7 +134,7 @@ class DBPrefs {
     }
 
     fun remove(key: ConfigKey): Boolean {
-        appDatabase.preferenceDao().deleteByKey(key.toString())
+        appDatabase.preferenceDao().deleteByKey(key.keyname())
         return true
     }
 
@@ -152,7 +152,7 @@ class DBPrefs {
     }
 
     fun contains(key: ConfigKey): Boolean {
-        return appDatabase.preferenceDao().countKey(key.toString()) == 1
+        return appDatabase.preferenceDao().countKey(key.keyname()) == 1
     }
 
     fun contains(key: String): Boolean {
