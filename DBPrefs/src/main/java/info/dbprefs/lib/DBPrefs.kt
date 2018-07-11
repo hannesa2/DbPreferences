@@ -80,7 +80,7 @@ class DBPrefs {
         return null
     }
 
-    fun <T> get(key: String, type: Type, default : T): T? {
+    fun <T> get(key: String, type: Type, default : T?): T? {
         val returningClass: T?
         val decodedText = getSerialized(key) ?: return null
         try {
