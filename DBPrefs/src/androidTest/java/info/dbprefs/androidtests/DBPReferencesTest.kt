@@ -2,15 +2,20 @@ package info.dbprefs.androidtests
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
+import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import info.dbprefs.androidtests.data.TestClass
 import info.dbprefs.androidtests.data.TestConfigKeys
+import info.dbprefs.androidtests.typeadapters.Student
+import info.dbprefs.androidtests.typeadapters.StudentAdapter
 import info.dbprefs.lib.DBPrefs
+import junit.framework.Assert.assertEquals
 import org.junit.After
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+
 
 @RunWith(AndroidJUnit4::class)
 class DBPReferencesTest {
@@ -27,6 +32,27 @@ class DBPReferencesTest {
     @After
     fun tearDown() {
         dbPrefs.close()
+    }
+
+    @Test
+    fun testCustomGson() {
+        val builder = GsonBuilder()
+        builder.registerTypeAdapter(Student::class.java, StudentAdapter())
+        val gson = builder.create()
+
+        dbPrefs = DBPrefs(gson)
+
+        val jsonString = "{\"name\":\"BugsBunny\",\"rollNo\":1}"
+
+        val student = gson.fromJson(jsonString, Student::class.java)
+        dbPrefs.put("student", student)
+
+        // read
+        val studentRead: Student? = dbPrefs.get("student", Student::class.java)
+
+        assertEquals(student, studentRead)
+
+        assertEquals(jsonString, gson.toJson(studentRead))
     }
 
     @Test
