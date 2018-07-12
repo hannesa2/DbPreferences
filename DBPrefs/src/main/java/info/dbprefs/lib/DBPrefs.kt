@@ -1,6 +1,5 @@
 package info.dbprefs.lib
 
-import android.annotation.SuppressLint
 import android.arch.persistence.room.Room
 import android.content.Context
 import android.provider.Settings
@@ -19,7 +18,11 @@ class DBPrefs {
 
     private var mParse: Parse
 
-    init {
+    constructor(gson: Gson) {
+        mParse = GsonParser(gson)
+    }
+
+    constructor() {
         mParse = GsonParser(Gson())
     }
 
@@ -179,12 +182,8 @@ class DBPrefs {
     companion object {
         lateinit var appDatabase: AppDatabase
 
-        @SuppressLint("HardwareIds")
-        fun init(context: Context) {
-            init(context, Settings.Secure.getString(context.getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID))
-        }
-
-        fun init(context: Context, password: String) {
+        @JvmOverloads
+        fun init(context: Context, password: String = Settings.Secure.getString(context.getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID)) {
             // Room
             val factory = SafeHelperFactory(password.toCharArray())
             appDatabase = Room.databaseBuilder(context, AppDatabase::class.java, AppDatabase.ROOM_DATABASE_NAME)
