@@ -84,13 +84,15 @@ class DBPrefs {
     }
 
     fun <T> get(key: String, type: Type, default: T?): T? {
-        val returningClass: T?
-        val decodedText = getSerialized(key) ?: return null
-        try {
-            returningClass = mParse.fromJson<T>(decodedText, type)
-            return returningClass
-        } catch (e: Exception) {
-            Log.e(e.message, "Exception for class $type decoded Text: $decodedText")
+        var returningClass: T?
+        val decodedText = getSerialized(key)
+        decodedText?.let {
+            try {
+                returningClass = mParse.fromJson<T>(it, type)
+                return returningClass
+            } catch (e: Exception) {
+                Log.e(e.message, "Exception for class $type decoded Text: $decodedText")
+            }
         }
         return default
     }
