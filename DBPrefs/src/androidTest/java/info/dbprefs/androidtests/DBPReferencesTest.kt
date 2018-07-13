@@ -91,6 +91,12 @@ class DBPReferencesTest {
     }
 
     @Test
+    fun testDefaultValueReturned() {
+        val value: String? = dbPrefs.get("notexistingString", String::class.java, "defaultValue")
+        Assert.assertEquals("defaultValue", value)
+    }
+
+    @Test
     fun testInteger() {
         var value: Int? = dbPrefs.get(TestConfigKeys.KEY_INTEGER, Integer::class.java)
         Assert.assertNull(value)
