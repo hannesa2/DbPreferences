@@ -83,7 +83,7 @@ class DBPrefs {
         return null
     }
 
-    fun <T> get(key: String, type: Type, default : T?): T? {
+    fun <T> get(key: String, type: Type, default: T?): T? {
         val returningClass: T?
         val decodedText = getSerialized(key) ?: return null
         try {
@@ -166,15 +166,16 @@ class DBPrefs {
         return appDatabase.preferenceDao().all.size
     }
 
-    fun clearAllExcept(vararg keys: String) {
-        appDatabase.preferenceDao().all.forEach {
-            if (!keys.contains(it.key)) {
-                appDatabase.preferenceDao().deleteByKey(it.key)
+    fun clearAllExcept(vararg keys: ConfigKey) {
+        appDatabase.preferenceDao().all.forEach { item ->
+            var keyList = keys.map { it.keyname() }
+            if (!keys.map { it.keyname() }.contains(item.key)) {
+                appDatabase.preferenceDao().deleteByKey(item.key)
             }
         }
     }
 
-    fun getAll() : List<String> {
+    fun getAll(): List<String> {
         return appDatabase.preferenceDao().all.map { it.key }
     }
 

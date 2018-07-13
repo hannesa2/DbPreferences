@@ -9,9 +9,9 @@ import info.dbprefs.androidtests.data.TestConfigKeys
 import info.dbprefs.androidtests.typeadapters.Student
 import info.dbprefs.androidtests.typeadapters.StudentAdapter
 import info.dbprefs.lib.DBPrefs
-import junit.framework.Assert.assertEquals
 import org.junit.After
 import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -32,6 +32,26 @@ class DBPReferencesTest {
     @After
     fun tearDown() {
         dbPrefs.close()
+    }
+
+    @Test
+    fun testClearAllExcept() {
+        add3Items()
+        Assert.assertEquals(3, dbPrefs.count())
+        dbPrefs.clearAllExcept(TestConfigKeys.KEY_STRING, TestConfigKeys.KEY_OBJECT)
+        Assert.assertEquals(2, dbPrefs.count())
+
+        add3Items()
+        dbPrefs.clearAllExcept(TestConfigKeys.KEY_OBJECT)
+        Assert.assertEquals(1, dbPrefs.count())
+    }
+
+    private fun add3Items() {
+        dbPrefs.clearAll()
+        dbPrefs.put(TestConfigKeys.KEY_STRING, "AA")
+        dbPrefs.put(TestConfigKeys.KEY_INTEGER, 9)
+        val testClass = TestClass("cc", "dd")
+        dbPrefs.put(TestConfigKeys.KEY_OBJECT, testClass)
     }
 
     @Test
