@@ -38,7 +38,7 @@ class DBPrefs {
         return putSerialized(key, mParse.toJson(value))
     }
 
-    private fun putSerialized(key: ConfigKey, value: String?): Boolean {
+    public fun putSerialized(key: ConfigKey, value: String?): Boolean {
         if (value != null) {
             val pref = PreferenceRoom()
             pref.key = key.keyname()
@@ -49,7 +49,7 @@ class DBPrefs {
     }
 
     @Deprecated(message = "Try to avoid using a String")
-    private fun putSerialized(key: String, value: String?): Boolean {
+    public fun putSerialized(key: String, value: String?): Boolean {
         if (value != null) {
             val pref = PreferenceRoom()
             pref.key = key
@@ -95,7 +95,7 @@ class DBPrefs {
         return default
     }
 
-    private fun getSerialized(key: ConfigKey): String? {
+    public fun getSerialized(key: ConfigKey): String? {
         val value = appDatabase.preferenceDao().getValue(key.keyname())
         return if (value == null)
             return null
@@ -104,7 +104,7 @@ class DBPrefs {
     }
 
     @Deprecated(message = "Try to avoid using a String")
-    private fun getSerialized(key: String): String? {
+    public fun getSerialized(key: String): String? {
         val value = appDatabase.preferenceDao().getValue(key)
         return if (value == null)
             return null
