@@ -4,9 +4,32 @@ sudo: true
 
 os:
   - linux
+
+env:
+  global:
+    - ANDROID_TARGET=android-26
+    - ANDROID_ABI=google_apis/x86
+
 addons:
   apt_packages:
     - pandoc
+
+android:
+  components:
+    # Update Android SDK Tools
+    - tools
+    - platform-tools
+
+    - build-tools-26.0.2
+    - android-26
+    # Support library
+    - extra-android-support
+    - extra-google-google_play_services
+    - extra-android-m2repository
+    - extra-google-m2repository
+    - sys-img-armeabi-v7a-android-26
+    #- system-imgages-${ANDROID_ABI}-${ANDROID_TARGET}
+    #- system-images;android-26;google_apis;x86
 
 before_cache:
   # Do not cache a few Gradle files/directories (see https://docs.travis-ci.com/user/languages/java/#Caching)
@@ -22,17 +45,38 @@ cache:
     # Android build cache (see https://developer.android.com/studio/build/build-cache.html)
     - $HOME/.android/build-cache
 
+before_install:
+  # Install SDK license so Android Gradle plugin can install deps.
+  - mkdir "$ANDROID_HOME/licenses" || true
+  - echo "d56f5187479451eabf01fb78af6dfcb131a6481e" >> "$ANDROID_HOME/licenses/android-sdk-license"
+  # Install the rest of tools (e.g. avdmanager)
+  - sdkmanager tools
+  - sdkmanager --list
+  # Install the system image.
+  - sdkmanager "system-images;android-26;default;armeabi-v7a"
+  # Create and start emulator for the script. Meant to race the install task.
+  - echo no | avdmanager create avd --force -n emulatorApi26 -k "system-images;android-26;default;armeabi-v7a"
+  - $ANDROID_HOME/emulator/emulator -avd emulatorApi26 -no-audio -no-window &
+
 before_script:
   - mkdir -p $ANDROID_HOME/licenses
   - echo "8933bad161af4178b1185d1a37fbf41ea5269c55" > $ANDROID_HOME/licenses/android-sdk-license
   - echo "d56f5187479451eabf01fb78af6dfcb131a6481e" >> $ANDROID_HOME/licenses/android-sdk-license
   - mkdir -p $HOME/.android # silence sdkmanager warning
   - echo 'count=0' > $HOME/.android/repositories.cfg # silence sdkmanager warning
-  - echo y | $ANDROID_HOME/tools/bin/sdkmanager 'tools' 'platform-tools' 'build-tools;27.0.3' > /dev/null
-  - echo y | $ANDROID_HOME/tools/bin/sdkmanager 'platforms;android-27' > /dev/null
+  - echo y | $ANDROID_HOME/tools/bin/sdkmanager 'tools' 'platform-tools' 'build-tools;26.0.2' > /dev/null
+  - echo y | $ANDROID_HOME/tools/bin/sdkmanager 'platforms;android-26'
+  - avdmanager list
+  # - echo no | avdmanager create avd --force --name test -k $ANDROID_TARGET --abi $ANDROID_ABI
+  #- echo no | avdmanager create avd --force --name test -k "system-images;android-26;google_apis;x86" --abi "google_apis/x86"
+  #- echo no | avdmanager create avd --force --name test -k "system-images;android-26;google_apis;armeabi-v7a" --abi armeabi-v7a
+  #- emulator -avd test -no-skin -no-audio -no-window &
+  - android-wait-for-emulator
+  - adb shell input keyevent 82 &
 
 script:
   - set -o pipefail
   - ./gradlew clean build :DBPrefs-lint:test :DBPrefs:assembleDebugAndroidTest :DBPrefs:check --profile --continue 2>&1 | tee build.log
   - set +o pipefail
+  - ./gradlew :DBPrefs:connectedAndroidTest
   - pandoc `ls -1rt build/reports/profile/profile-*.html | tail -n1` -t plain
