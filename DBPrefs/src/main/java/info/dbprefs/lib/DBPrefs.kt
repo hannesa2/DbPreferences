@@ -18,22 +18,41 @@ class DBPrefs {
 
     private var mParse: Parse
 
-    init {
+    constructor(gson: Gson) {
+        mParse = GsonParser(gson)
+    }
+
+    constructor() {
         mParse = GsonParser(Gson())
     }
 
     fun <T> put(key: ConfigKey, value: T): Boolean {
-        return putSerialized<Any>(key, mParse.toJson(value))
+        return putSerialized(key, mParse.toJson(value))
+    }
+
+    fun <T> put(key: String, value: T): Boolean {
+        return putSerialized(key, mParse.toJson(value))
     }
 
     fun <T> put(key: ConfigKey, value: List<T>): Boolean {
-        return putSerialized<Any>(key, mParse.toJson(value))
+        return putSerialized(key, mParse.toJson(value))
     }
 
-    private fun <T> putSerialized(key: ConfigKey, value: String?): Boolean {
+    public fun putSerialized(key: ConfigKey, value: String?): Boolean {
         if (value != null) {
             val pref = PreferenceRoom()
-            pref.key = key.toString()
+            pref.key = key.keyname()
+            pref.value = value
+            appDatabase.preferenceDao().insert(pref)
+        }
+        return true
+    }
+
+    @Deprecated(message = "Try to avoid using a String")
+    public fun putSerialized(key: String, value: String?): Boolean {
+        if (value != null) {
+            val pref = PreferenceRoom()
+            pref.key = key
             pref.value = value
             appDatabase.preferenceDao().insert(pref)
         }
@@ -52,8 +71,43 @@ class DBPrefs {
         return null
     }
 
-    private fun getSerialized(key: ConfigKey): String? {
-        val value = appDatabase.preferenceDao().getValue(key.toString())
+    fun <T> get(key: String, type: Type): T? {
+        val returningClass: T?
+        val decodedText = getSerialized(key) ?: return null
+        try {
+            returningClass = mParse.fromJson<T>(decodedText, type)
+            return returningClass
+        } catch (e: Exception) {
+            Log.e(e.message, "Exception for class $type decoded Text: $decodedText")
+        }
+        return null
+    }
+
+    fun <T> get(key: String, type: Type, default: T?): T? {
+        var returningClass: T?
+        val decodedText = getSerialized(key)
+        decodedText?.let {
+            try {
+                returningClass = mParse.fromJson<T>(it, type)
+                return returningClass
+            } catch (e: Exception) {
+                Log.e(e.message, "Exception for class $type decoded Text: $decodedText")
+            }
+        }
+        return default
+    }
+
+    public fun getSerialized(key: ConfigKey): String? {
+        val value = appDatabase.preferenceDao().getValue(key.keyname())
+        return if (value == null)
+            return null
+        else
+            return value.value
+    }
+
+    @Deprecated(message = "Try to avoid using a String")
+    public fun getSerialized(key: String): String? {
+        val value = appDatabase.preferenceDao().getValue(key)
         return if (value == null)
             return null
         else
@@ -63,7 +117,7 @@ class DBPrefs {
     fun <T> getFlowableValue(key: ConfigKey, type: Type): Flowable<T>? {
         return appDatabase
                 .preferenceDao()
-                .getValueFlowable(key.toString())
+                .getValueFlowable(key.keyname())
                 .map {
                     val returningClass: T?
                     val decodedText = it.value
@@ -84,8 +138,14 @@ class DBPrefs {
         } else storage
     }
 
-    fun remove(key: ConfigKey) {
-        appDatabase.preferenceDao().deleteByKey(key.toString())
+    fun remove(key: ConfigKey): Boolean {
+        appDatabase.preferenceDao().deleteByKey(key.keyname())
+        return true
+    }
+
+    fun remove(key: String): Boolean {
+        appDatabase.preferenceDao().deleteByKey(key)
+        return true
     }
 
     fun clearAll() {
@@ -97,18 +157,36 @@ class DBPrefs {
     }
 
     fun contains(key: ConfigKey): Boolean {
-        return appDatabase.preferenceDao().countKey(key.toString()) == 1
+        return appDatabase.preferenceDao().countKey(key.keyname()) == 1
+    }
+
+    fun contains(key: String): Boolean {
+        return appDatabase.preferenceDao().countKey(key) == 1
+    }
+
+    fun count(): Int {
+        return appDatabase.preferenceDao().all.size
+    }
+
+    fun clearAllExcept(vararg keys: ConfigKey) {
+        appDatabase.preferenceDao().all.forEach { item ->
+            var keyList = keys.map { it.keyname() }
+            if (!keys.map { it.keyname() }.contains(item.key)) {
+                appDatabase.preferenceDao().deleteByKey(item.key)
+            }
+        }
+    }
+
+    fun getAll(): List<String> {
+        return appDatabase.preferenceDao().all.map { it.key }
     }
 
     @Suppress("unused")
     companion object {
         lateinit var appDatabase: AppDatabase
 
-        fun init(context: Context) {
-            init(context, Settings.Secure.getString(context.getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID))
-        }
-
-        fun init(context: Context, password: String) {
+        @JvmOverloads
+        fun init(context: Context, password: String = Settings.Secure.getString(context.getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID)) {
             // Room
             val factory = SafeHelperFactory(password.toCharArray())
             appDatabase = Room.databaseBuilder(context, AppDatabase::class.java, AppDatabase.ROOM_DATABASE_NAME)
