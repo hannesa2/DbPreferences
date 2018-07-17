@@ -14,7 +14,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.lang.reflect.Type
 
-class DBPrefs {
+class DbPreferences {
 
     private var mParse: Parse
 

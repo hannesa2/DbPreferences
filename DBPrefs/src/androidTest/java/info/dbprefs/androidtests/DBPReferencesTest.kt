@@ -8,7 +8,7 @@ import info.dbprefs.androidtests.data.TestClass
 import info.dbprefs.androidtests.data.TestConfigKeys
 import info.dbprefs.androidtests.typeadapters.Student
 import info.dbprefs.androidtests.typeadapters.StudentAdapter
-import info.dbprefs.lib.DBPrefs
+import info.dbprefs.lib.DbPreferences
 import org.junit.After
 import org.junit.Assert
 import org.junit.Assert.assertEquals
@@ -20,12 +20,12 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class DBPReferencesTest {
 
-    private lateinit var dbPrefs: DBPrefs
+    private lateinit var dbPrefs: DbPreferences
 
     @Before
     fun setup() {
-        DBPrefs.init(InstrumentationRegistry.getTargetContext(), "secret")
-        dbPrefs = DBPrefs()
+        DbPreferences.init(InstrumentationRegistry.getTargetContext(), "secret")
+        dbPrefs = DbPreferences()
         dbPrefs.clearAll()
     }
 
@@ -60,7 +60,7 @@ class DBPReferencesTest {
         builder.registerTypeAdapter(Student::class.java, StudentAdapter())
         val gson = builder.create()
 
-        dbPrefs = DBPrefs(gson)
+        dbPrefs = DbPreferences(gson)
 
         val jsonString = "{\"name\":\"BugsBunny\",\"rollNo\":1}"
 
@@ -195,7 +195,7 @@ class DBPReferencesTest {
         for (item: Int in 1..2000) {
             dbPrefs.put(TestConfigKeys.KEY_STRING, "value" + item)
         }
-        Assert.assertEquals(true, (System.currentTimeMillis() - start) < 5000)
+        Assert.assertEquals(true, (System.currentTimeMillis() - start) < 6000)
 
         start = System.currentTimeMillis()
         for (item: Int in 1..2000) {

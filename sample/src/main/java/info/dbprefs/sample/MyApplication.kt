@@ -1,7 +1,6 @@
 package info.dbprefs.sample
 
-import android.app.Application
-import info.dbprefs.lib.DBPrefs
+import info.dbprefs.lib.DbPreferences
 import android.os.StrictMode
 import android.support.multidex.MultiDexApplication
 
@@ -11,7 +10,7 @@ class MyApplication : MultiDexApplication() {
     override fun onCreate() {
         super.onCreate()
 
-        DBPrefs.init(this, "your secret")
+        DbPreferences.init(this, "your secret")
 
         StrictMode.setThreadPolicy(StrictMode.ThreadPolicy.Builder()
                 .detectDiskReads()
@@ -30,7 +29,7 @@ class MyApplication : MultiDexApplication() {
 
     override fun onTerminate() {
         super.onTerminate()
-        DBPrefs.destroy()
+        DbPreferences.destroy()
     }
 
 }

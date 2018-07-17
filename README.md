@@ -8,7 +8,7 @@ An encrypted alternative to SharedPreferences. It's based on secure Room/SQlite 
 
 ### Usage
 
-##### Create an instance of DBPrefs and use get() or put() methodes on it
+##### Create an instance of DbPreferences and use get() or put() methodes on it
 
 You need an enum which implements ConfigKey to access values, eg.
 
@@ -27,7 +27,7 @@ class MyApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        DBPrefs.init(this, "your secret")
+        DbPreferences.init(this, "your secret")
     }
     ...
  }
@@ -36,29 +36,29 @@ class MyApplication : Application() {
 ###### Java
 ```java
 // get it
-TestClass testClass = new DBPrefs().get(MyConfigKeys.KEY_OBJECT_A, TestClass.class);
+TestClass testClass = new DbPreferences().get(MyConfigKeys.KEY_OBJECT_A, TestClass.class);
 
 // or save
-new DBPrefs().put(MyConfigKeys.KEY_OBJECT_A, testClassToStore);
+new DbPreferences().put(MyConfigKeys.KEY_OBJECT_A, testClassToStore);
 ```
 ###### Kotlin
 ```kotlin
 // get
-val testClass = DBPrefs().get<TestClass>(MyConfigKeys.KEY_OBJECT_A, TestClass::class.java)
+val testClass = DbPreferences().get<TestClass>(MyConfigKeys.KEY_OBJECT_A, TestClass::class.java)
 //or save
-DBPrefs().put(MyConfigKeys.KEY_OBJECT_A, testClassToStore)
+DbPreferences().put(MyConfigKeys.KEY_OBJECT_A, testClassToStore)
 ```
 
 Handle a list
 ###### Kotlin
 ```kotlin
 //save
-DBPrefs().put(MyConfigKeys.KEY_LIST, listSource)
+DbPreferences().put(MyConfigKeys.KEY_LIST, listSource)
 
 // get
 val listType = object : TypeToken<ArrayList<TestClass>>() {
 }.type
-var myList: ArrayList<TestClass>? = DBPrefs().get(MyConfigKeys.KEY_LIST, listType)
+var myList: ArrayList<TestClass>? = DbPreferences().get(MyConfigKeys.KEY_LIST, listType)
 ```
 
 That's it !
@@ -76,7 +76,7 @@ allprojects {
 ```
 ```Gradle
 dependencies {
-    implementation 'com.github.hannesa2:DbPreferences:2.0'
+    implementation 'com.github.hannesa2:DbPreferences:3.0'
 }
 
 ```
