@@ -195,12 +195,12 @@ class DBPReferencesTest {
         for (item: Int in 1..2000) {
             dbPrefs.put(TestConfigKeys.KEY_STRING, "value" + item)
         }
-        Assert.assertEquals(true, (System.currentTimeMillis() - start) < 6000)
+        Assert.assertTrue((System.currentTimeMillis() - start) < 9000)
 
         start = System.currentTimeMillis()
         for (item: Int in 1..2000) {
             var value: String? = dbPrefs.get(TestConfigKeys.KEY_STRING, String::class.java)
         }
-        Assert.assertEquals(true, (System.currentTimeMillis() - start) < 2000)
+        Assert.assertTrue((System.currentTimeMillis() - start) < 2000)
     }
 }
