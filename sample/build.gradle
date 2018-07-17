@@ -61,7 +61,7 @@ dependencies {
     implementation project(':DBPrefs')
 
     // room
-    implementation "com.commonsware.cwac:saferoom:0.4.2"
+    implementation "com.commonsware.cwac:saferoom:0.4.4"
     implementation "android.arch.persistence.room:runtime:$room"
     kapt "android.arch.persistence.room:compiler:$roomruntime"
     implementation "android.arch.persistence.room:rxjava2:$room"
