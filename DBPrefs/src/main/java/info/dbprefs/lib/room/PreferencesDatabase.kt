@@ -7,7 +7,7 @@ import info.dbprefs.lib.room.entity.PreferenceRoom
 
 @Database(entities = arrayOf(PreferenceRoom::class), version = 1)
 abstract//@TypeConverters({DateConverter.class})
-class AppDatabase : RoomDatabase() {
+class PreferencesDatabase : RoomDatabase() {
 
     abstract fun preferenceDao(): PreferenceRoomDao
 

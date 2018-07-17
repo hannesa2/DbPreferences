@@ -6,7 +6,7 @@ import android.provider.Settings
 import android.util.Log
 import com.commonsware.cwac.saferoom.SafeHelperFactory
 import com.google.gson.Gson
-import info.dbprefs.lib.room.AppDatabase
+import info.dbprefs.lib.room.PreferencesDatabase
 import info.dbprefs.lib.room.entity.PreferenceRoom
 import io.reactivex.Completable
 import io.reactivex.Flowable
@@ -183,13 +183,13 @@ class DbPreferences {
 
     @Suppress("unused")
     companion object {
-        lateinit var appDatabase: AppDatabase
+        lateinit var appDatabase: PreferencesDatabase
 
         @JvmOverloads
         fun init(context: Context, password: String = Settings.Secure.getString(context.getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID)) {
             // Room
             val factory = SafeHelperFactory(password.toCharArray())
-            appDatabase = Room.databaseBuilder(context, AppDatabase::class.java, AppDatabase.ROOM_DATABASE_NAME)
+            appDatabase = Room.databaseBuilder(context, PreferencesDatabase::class.java, PreferencesDatabase.ROOM_DATABASE_NAME)
                     .openHelperFactory(factory).allowMainThreadQueries()
                     .build()
 
