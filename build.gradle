@@ -34,7 +34,7 @@ allprojects {
 
 ext {
     defaultCompileSdkVersion = 28
-    defaultMinSdkVersion = 19
+    defaultMinSdkVersion = 16
     defaultTargetSdkVersion = 28
     defaultBuildToolsVersion = "28.0.1"
     defaultSupportLibVersion = "27.1.1"
