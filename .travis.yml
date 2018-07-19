@@ -67,4 +67,14 @@ script:
   - ./gradlew clean build :DBPrefs-lint:test :DBPrefs:assembleDebugAndroidTest :DBPrefs:check --profile --continue 2>&1 | tee build.log
   - set +o pipefail
   - ./gradlew :DBPrefs:connectedAndroidTest
-  - pandoc `ls -1rt build/reports/profile/profile-*.html | tail -n1` -t plain
+
+before_cache:
+  - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+
+after_failure:
+  - cat /home/travis/build/hannesa2/DbPreferences/DBPrefs/build/reports/androidTests/connected/index.html
