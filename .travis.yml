@@ -75,7 +75,7 @@ cache:
 after_failure:
   #- cat /home/travis/build/hannesa2/DbPreferences/DBPrefs/build/reports/androidTests/connected/index.html
   - export MY_MOD="DBPrefs"
-  - export MY_LOG_DIR="$(pwd)/${MY_MOD}/build/outputs/reports/androidTests/connected/"
+  - export MY_LOG_DIR="$(pwd)/${MY_MOD}/build/reports/androidTests/connected/"
   - pwd && cd "${MY_LOG_DIR:-.}" && pwd && ls -al
   #- sudo apt-get install -qq lynx && lynx --dump index.html > myIndex.log
   #- lynx --dump com.android.builder.testing.ConnectedDevice.html > myConnectedDevice.log
