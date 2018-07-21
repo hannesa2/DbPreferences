@@ -201,6 +201,6 @@ class DBPReferencesTest {
         for (item: Int in 1..2000) {
             var value: String? = dbPrefs.get(TestConfigKeys.KEY_STRING, String::class.java)
         }
-        Assert.assertTrue((System.currentTimeMillis() - start) < 8000)  // ARM needs more time, x86 works with 2000
+        Assert.assertTrue((System.currentTimeMillis() - start) < 10000)  // ARM needs more time, x86 works with 2000
     }
 }
