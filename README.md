@@ -1,8 +1,8 @@
 # DB Preferences
 
 [![GitHub license](https://img.shields.io/badge/license-Apache%20Version%202.0-blue.svg)](https://github.com/sbrukhanda/fragmentviewpager/blob/master/LICENSE.txt)
+[![Build Status](https://travis-ci.org/hannesa2/DbPreferences.svg?branch=master)](https://travis-ci.org/hannesa2/DbPreferences)
 [![](https://jitpack.io/v/hannesa2/DbPreferences.svg)](https://jitpack.io/#hannesa2/DbPreferences)
-
 
 An encrypted alternative to SharedPreferences. It's based on secure Room/SQlite and uses sqlcipher
 
