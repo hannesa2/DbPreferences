@@ -29,6 +29,7 @@ android {
         versionName version + "." + versionCode
 
         multiDexEnabled true
+        testInstrumentationRunner = 'android.support.test.runner.AndroidJUnitRunner'
 
         javaCompileOptions {
             annotationProcessorOptions {
@@ -45,10 +46,16 @@ android {
         debug {
             applicationIdSuffix ".debug"
             versionNameSuffix ".debug"
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), "$projectDir/proguard-rules.pro"
+            //test apk will have proguard applied to it so we detect any crashes or anomalies during espresso tests
+            testProguardFiles getDefaultProguardFile('proguard-android.txt'), "$projectDir/proguard-rules.pro", "$projectDir/proguard-test-rules.pro"
+            minifyEnabled true
+            useProguard true
+            shrinkResources true
         }
         release {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), "$projectDir/proguard-rules.pro"
-            //test apk will have proguard applied to it so we detect any crashes or anomalies during espresso tests, we can also apply this to debug if needed
+            //test apk will have proguard applied to it so we detect any crashes or anomalies during espresso tests
             testProguardFiles getDefaultProguardFile('proguard-android.txt'), "$projectDir/proguard-rules.pro"
             minifyEnabled true
             useProguard true
@@ -74,4 +81,9 @@ dependencies {
     kapt "android.arch.persistence.room:compiler:$roomruntime"
     implementation "android.arch.persistence.room:rxjava2:$room"
     androidTestImplementation "android.arch.persistence.room:testing:$room"
+    androidTestImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test:rules:1.0.2'
+    //  UI testing with Espresso
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }
