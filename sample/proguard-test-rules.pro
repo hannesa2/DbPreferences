@@ -15,3 +15,6 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+# proguard-test.pro:
+#for easier debug if proguard fails
+-keepattributes SourceFile,LineNumberTable

@@ -12,13 +12,12 @@ android {
         targetSdkVersion defaultTargetSdkVersion
         versionCode 1
         versionName dbPrefsVersionName
-
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner" // For Instrumentation Unit testing
+        consumerProguardFile('proguard-rules.pro')
     }
     buildTypes {
         release {
             minifyEnabled false
-            consumerProguardFile('proguard-rules.pro')
         }
     }
 }
@@ -35,7 +34,6 @@ publishing {
 }
 
 dependencies {
-    testImplementation 'junit:junit:4.12'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.google.code.gson:gson:2.8.5'
 
