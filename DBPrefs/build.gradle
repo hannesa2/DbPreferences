@@ -1,7 +1,8 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
-
+apply plugin: 'digital.wup.android-maven-publish'
+String dbPrefsVersionName="2.0"
 android {
     compileSdkVersion defaultCompileSdkVersion
     buildToolsVersion defaultBuildToolsVersion
@@ -10,13 +11,24 @@ android {
         minSdkVersion defaultMinSdkVersion
         targetSdkVersion defaultTargetSdkVersion
         versionCode 1
-        versionName "2.0"
+        versionName dbPrefsVersionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner" // For Instrumentation Unit testing
         consumerProguardFile('proguard-rules.pro')
     }
     buildTypes {
         release {
             minifyEnabled false
+        }
+    }
+}
+
+publishing {
+    publications {
+        mavenAar(MavenPublication) {
+            groupId = 'com.github.hannesa2'
+            artifactId = 'DbPreferences'
+            version = dbPrefsVersionName
+            from components.android
         }
     }
 }
