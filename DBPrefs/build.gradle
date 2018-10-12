@@ -53,3 +53,55 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }
 
+task javadoc(type: Javadoc) {
+    failOnError = false
+    exclude "**/internal/**"
+    exclude "**/test/**"
+    exclude "**/jmh/**"
+    options {
+        windowTitle = "RxJava Javadoc ${project.version}"
+    }
+    // Clear the following options to make the docs consistent with the old format
+    options.addStringOption("top").value = ""
+    options.addStringOption("doctitle").value = ""
+    options.addStringOption("header").value = ""
+    options.stylesheetFile = new File(projectDir, "gradle/stylesheet.css");
+
+    options.links(
+            "https://docs.oracle.com/javase/7/docs/api/"
+//            , "http://host/urls-${dbVersion}-javadoc/"
+    )
+
+    if (JavaVersion.current().isJava7()) {
+        // "./gradle/stylesheet.css" only supports Java 7
+        options.addStringOption("stylesheetfile", rootProject.file("./gradle/stylesheet.css").toString())
+    }
+}
+
+//task sourcesJar(type: Jar, dependsOn: classes) {
+//    classifier = "sources"
+//    from sourceSets.main.allSource
+//}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = "javadoc"
+    from javadoc.destinationDir
+}
+
+artifacts {
+//    archives jar
+//    archives sourcesJar
+    archives javadocJar
+}
+
+//task jar {
+//    manifest {
+//        name = "rxjava"
+//        instruction "Bundle-Vendor", "DbPreferences Contributors"
+//        instruction "Bundle-DocURL", "https://github.com/hannesa2/DbPreferences"
+//        instruction "Import-Package", "!org.junit,!junit.framework,!org.mockito.*,!org.testng.*,*"
+//        instruction "Eclipse-ExtensibleAPI", "true"
+//        instruction "Automatic-Module-Name", "info.dbprefs.lib"
+//    }
+//}
+

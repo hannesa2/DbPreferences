@@ -72,6 +72,9 @@ cache:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
 
+after_success:
+  - bash gradle/push_javadoc.sh
+
 after_failure:
   #- cat /home/travis/build/hannesa2/DbPreferences/DBPrefs/build/reports/androidTests/connected/index.html
   - export MY_MOD="DBPrefs"
