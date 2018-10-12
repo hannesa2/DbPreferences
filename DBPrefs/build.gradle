@@ -5,7 +5,6 @@ apply plugin: 'digital.wup.android-maven-publish'
 String dbPrefsVersionName="2.0"
 android {
     compileSdkVersion defaultCompileSdkVersion
-    buildToolsVersion defaultBuildToolsVersion
 
     defaultConfig {
         minSdkVersion defaultMinSdkVersion

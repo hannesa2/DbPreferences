@@ -20,7 +20,6 @@ android {
         }
     }
     compileSdkVersion defaultCompileSdkVersion
-    buildToolsVersion defaultBuildToolsVersion
     defaultConfig {
         applicationId "info.dbprefes.sample"
         minSdkVersion defaultMinSdkVersion
@@ -67,8 +66,7 @@ android {
 
 dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
-    implementation 'com.android.support:multidex:1.0.3'
-    // minsdk <= 20
+    implementation 'com.android.support:multidex:1.0.3'    // minsdk <= 20
     implementation "com.android.support:appcompat-v7:${defaultSupportLibVersion}"
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
