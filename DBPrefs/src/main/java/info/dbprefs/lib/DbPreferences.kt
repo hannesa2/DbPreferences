@@ -14,6 +14,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.lang.reflect.Type
 
+/**
+ * An encrypted alternative to SharedPreferences. It's based on secure Room/SQlite and uses sqlcipher
+ */
 class DbPreferences {
 
     private var mParse: Parse
