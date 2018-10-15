@@ -59,7 +59,7 @@ before_script:
 
 script:
   - set -o pipefail
-  - ./gradlew clean build :DBPrefs-lint:test :DBPrefs:assembleDebugAndroidTest :DBPrefs:check --profile --continue 2>&1 | tee build.log
+  - ./gradlew clean build :DBPrefs:javadocJar :DBPrefs-lint:test :DBPrefs:assembleDebugAndroidTest :DBPrefs:check --profile --continue 2>&1 | tee build.log
   - set +o pipefail
   - ./gradlew :DBPrefs:connectedAndroidTest
 
