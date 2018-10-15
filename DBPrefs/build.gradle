@@ -80,8 +80,13 @@ task dokkaJavadoc(type: org.jetbrains.dokka.gradle.DokkaTask) {
     outputDirectory = "$buildDir/javadoc"
 }
 
+// build a jar with javadoc
 task javadocJar(type: Jar, dependsOn: dokkaJavadoc) {
     classifier = 'javadoc'
     from "$buildDir/javadoc"
     archiveName = "javadoc.jar"
+}
+
+artifacts {
+    archives javadocJar
 }
