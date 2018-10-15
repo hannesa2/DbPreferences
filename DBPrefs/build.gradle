@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'digital.wup.android-maven-publish'
-String dbPrefsVersionName="2.0"
+String dbPrefsVersionName = "2.0"
 android {
     compileSdkVersion defaultCompileSdkVersion
 
@@ -11,7 +11,8 @@ android {
         targetSdkVersion defaultTargetSdkVersion
         versionCode 1
         versionName dbPrefsVersionName
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner" // For Instrumentation Unit testing
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        // For Instrumentation Unit testing
         consumerProguardFile('proguard-rules.pro')
     }
     buildTypes {
@@ -52,3 +53,32 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }
 
+// https://medium.com/@hamen/android-library-aar-and-javadoc-6859898cad28
+task javadoc(type: Javadoc) {
+    failOnError true
+    source = android.sourceSets.main.java.sourceFiles
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    classpath += configurations.compile
+}
+
+// build a jar with javadoc
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives javadocJar
+}
+
+// build a jar with source files
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+
+    include("**/IDbPreferences.java")
+}
+
+artifacts {
+    archives sourcesJar
+}

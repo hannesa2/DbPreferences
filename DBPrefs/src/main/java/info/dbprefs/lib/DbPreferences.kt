@@ -14,7 +14,10 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.lang.reflect.Type
 
-class DbPreferences {
+/**
+* An encrypted alternative to SharedPreferences. It's based on secure Room/SQlite and uses sqlcipher
+*/
+class DbPreferences : IDbPreferences {
 
     private var mParse: Parse
 
@@ -26,19 +29,19 @@ class DbPreferences {
         mParse = GsonParser(Gson())
     }
 
-    fun <T> put(key: ConfigKey, value: T): Boolean {
+    override fun <T> put(key: ConfigKey, value: T): Boolean {
         return putSerialized(key, mParse.toJson(value))
     }
 
-    fun <T> put(key: String, value: T): Boolean {
+    override fun <T> put(key: String, value: T): Boolean {
         return putSerialized(key, mParse.toJson(value))
     }
 
-    fun <T> put(key: ConfigKey, value: List<T>): Boolean {
+    override fun <T> put(key: ConfigKey, value: List<T>): Boolean {
         return putSerialized(key, mParse.toJson(value))
     }
 
-    public fun putSerialized(key: ConfigKey, value: String?): Boolean {
+    fun putSerialized(key: ConfigKey, value: String?): Boolean {
         if (value != null) {
             val pref = PreferenceRoom()
             pref.key = key.keyname()
@@ -49,7 +52,7 @@ class DbPreferences {
     }
 
     @Deprecated(message = "Try to avoid using a String")
-    public fun putSerialized(key: String, value: String?): Boolean {
+    fun putSerialized(key: String, value: String?): Boolean {
         if (value != null) {
             val pref = PreferenceRoom()
             pref.key = key
@@ -59,7 +62,7 @@ class DbPreferences {
         return true
     }
 
-    fun <T> get(key: ConfigKey, type: Type): T? {
+    override fun <T> get(key: ConfigKey, type: Type): T? {
         val returningClass: T?
         val decodedText = getSerialized(key) ?: return null
         try {
@@ -71,7 +74,7 @@ class DbPreferences {
         return null
     }
 
-    fun <T> get(key: String, type: Type): T? {
+    override fun <T> get(key: String, type: Type): T? {
         val returningClass: T?
         val decodedText = getSerialized(key) ?: return null
         try {
@@ -97,7 +100,7 @@ class DbPreferences {
         return default
     }
 
-    public fun getSerialized(key: ConfigKey): String? {
+    fun getSerialized(key: ConfigKey): String? {
         val value = appDatabase.preferenceDao().getValue(key.keyname())
         return if (value == null)
             return null
@@ -131,7 +134,7 @@ class DbPreferences {
                 }
     }
 
-    fun <T> get(key: ConfigKey, type: Type, defaultValue: T): T {
+    override fun <T> get(key: ConfigKey, type: Type, defaultValue: T): T {
         val storage = get<T>(key, type)
         return if (storage == null || storage == "") {
             defaultValue
