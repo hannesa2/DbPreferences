@@ -1,6 +1,6 @@
 package info.dbprefs.lib
 
-import android.arch.persistence.room.Room
+import androidx.room.Room
 import android.content.Context
 import android.provider.Settings
 import android.util.Log

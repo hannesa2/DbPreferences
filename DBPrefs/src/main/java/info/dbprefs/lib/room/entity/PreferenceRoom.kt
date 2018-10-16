@@ -1,9 +1,9 @@
 package info.dbprefs.lib.room.entity
 
-import android.arch.persistence.room.ColumnInfo
-import android.arch.persistence.room.Entity
-import android.arch.persistence.room.Index
-import android.arch.persistence.room.PrimaryKey
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.Index
+import androidx.room.PrimaryKey
 
 @Entity(tableName = "sharedpreference", indices = arrayOf(Index(value = arrayOf("keyOfValue"), unique = true)))
 data class PreferenceRoom(@PrimaryKey

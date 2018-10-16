@@ -4,7 +4,7 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'digital.wup.android-maven-publish'
 apply plugin: 'org.jetbrains.dokka-android'
 
-String dbPrefsVersionName="2.0"
+String dbPrefsVersionName = "2.0"
 android {
     compileSdkVersion defaultCompileSdkVersion
 
@@ -13,7 +13,8 @@ android {
         targetSdkVersion defaultTargetSdkVersion
         versionCode 1
         versionName dbPrefsVersionName
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner" // For Instrumentation Unit testing
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        // For Instrumentation Unit testing
         consumerProguardFile('proguard-rules.pro')
     }
     buildTypes {
@@ -38,20 +39,20 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.google.code.gson:gson:2.8.5'
 
-    // room
     implementation "com.commonsware.cwac:saferoom:0.4.4"
-    implementation "android.arch.persistence.room:runtime:$room"
-    kapt "android.arch.persistence.room:compiler:$roomruntime"
-    implementation "android.arch.persistence.room:rxjava2:$room"
+    implementation "androidx.room:room-runtime:$room"
+    kapt "androidx.room:room-compiler:$roomruntime"
+    implementation "androidx.room:room-rxjava2:$room"
 
-    implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
+    implementation "io.reactivex.rxjava2:rxandroid:2.1.0"
 
     lintChecks project(':DBPrefs-lint')
 
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation "android.arch.persistence.room:testing:$room"
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    androidTestImplementation "androidx.room:room-testing:$room"
+    androidTestImplementation 'androidx.test:runner:1.1.0-beta02'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-beta02'
+    androidTestImplementation 'androidx.test.ext:junit:1.0.0-beta02'
 }
 
 dokka {

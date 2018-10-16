@@ -1,6 +1,6 @@
 package info.dbprefs.lib.room
 
-import android.arch.persistence.room.*
+import androidx.room.*
 import info.dbprefs.lib.room.entity.PreferenceRoom
 import io.reactivex.Flowable
 

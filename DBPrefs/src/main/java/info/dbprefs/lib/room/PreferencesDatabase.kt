@@ -1,7 +1,7 @@
 package info.dbprefs.lib.room
 
-import android.arch.persistence.room.Database
-import android.arch.persistence.room.RoomDatabase
+import androidx.room.Database
+import androidx.room.RoomDatabase
 
 import info.dbprefs.lib.room.entity.PreferenceRoom
 
