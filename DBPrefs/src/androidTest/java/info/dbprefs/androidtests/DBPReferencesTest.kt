@@ -1,7 +1,7 @@
 package info.dbprefs.androidtests
 
-import android.support.test.InstrumentationRegistry
-import android.support.test.runner.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import info.dbprefs.androidtests.data.TestClass
@@ -24,7 +24,7 @@ class DBPReferencesTest {
 
     @Before
     fun setup() {
-        DbPreferences.init(InstrumentationRegistry.getTargetContext(), "secret")
+        DbPreferences.init(InstrumentationRegistry.getInstrumentation().context, "secret")
         dbPrefs = DbPreferences()
         dbPrefs.clearAll()
     }

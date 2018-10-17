@@ -2,7 +2,7 @@ package info.dbprefs.sample
 
 import info.dbprefs.lib.DbPreferences
 import android.os.StrictMode
-import android.support.multidex.MultiDexApplication
+import androidx.multidex.MultiDexApplication
 
 
 class MyApplication : MultiDexApplication() {
