@@ -70,14 +70,8 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.0.0'
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'org.reactivestreams:reactive-streams:1.0.2'
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.2'
     implementation project(':DBPrefs')
-    // room
-    implementation 'androidx.room:room-runtime:2.1.0-alpha01'
-    kapt 'androidx.room:room-compiler:2.1.0-alpha01'
-    implementation 'androidx.room:room-rxjava2:2.1.0-alpha01'
-    androidTestImplementation 'androidx.room:room-testing:2.1.0-alpha01'
+
     androidTestImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.0-beta02'
     androidTestImplementation 'androidx.test:rules:1.1.0-beta02'
