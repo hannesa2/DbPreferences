@@ -1,7 +1,7 @@
 package info.dbprefs.androidtests
 
 import androidx.test.platform.app.InstrumentationRegistry
-import androidx.test.runner.AndroidJUnit4
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import info.dbprefs.androidtests.data.TestClass
