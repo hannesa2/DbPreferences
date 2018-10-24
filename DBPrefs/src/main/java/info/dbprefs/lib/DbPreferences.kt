@@ -1,5 +1,6 @@
 package info.dbprefs.lib
 
+import android.annotation.SuppressLint
 import androidx.room.Room
 import android.content.Context
 import android.provider.Settings
@@ -188,8 +189,9 @@ class DbPreferences {
     companion object {
         lateinit var appDatabase: PreferencesDatabase
 
+        @SuppressLint("CheckResult", "LogNotTimber")
         @JvmOverloads
-        fun init(context: Context, password: String = Settings.Secure.getString(context.getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID)) {
+        fun init(context: Context, @SuppressLint("HardwareIds") password: String = Settings.Secure.getString(context.getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID)) {
             // Room
             val factory = SafeHelperFactory(password.toCharArray())
             appDatabase = Room.databaseBuilder(context, PreferencesDatabase::class.java, PreferencesDatabase.ROOM_DATABASE_NAME)
@@ -200,10 +202,33 @@ class DbPreferences {
 
             // the first access need > 150 ms, to avoid the long time on main thread, it makes the first call in io-thread
             Completable.fromAction {
-                appDatabase.preferenceDao().getValueFlowable("reduceFirstAccessTime")
+                appDatabase.preferenceDao().getValue("reduceFirstAccessTime")
             }.subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe { Log.d("time init", (System.currentTimeMillis() - start).toString() + " ms") }
+                    .retryWhen { error ->
+                        error.flatMap {
+                            context.deleteDatabase(PreferencesDatabase.ROOM_DATABASE_NAME)
+                            Log.e("error during init", it.message)
+                            it.message?.let {
+                                if (it.contains("file is not a database")) {
+                                    Log.e("error during init", "Probably the password was changed, and we can't open it anymore")
+
+                                    appDatabase.close()
+                                    appDatabase = Room.databaseBuilder(context, PreferencesDatabase::class.java, PreferencesDatabase.ROOM_DATABASE_NAME)
+                                            .openHelperFactory(factory).allowMainThreadQueries()
+                                            .build()
+                                }
+                            }
+
+                            return@flatMap Flowable.just("1")
+                        }
+                    }
+                    .subscribe(
+                            { Log.d("time init", (System.currentTimeMillis() - start).toString() + " ms") },
+                            {
+                                Log.e("second error init", it.message)
+                            }
+                    )
         }
 
         fun destroy() {
