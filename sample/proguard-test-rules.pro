@@ -18,3 +18,6 @@
 # proguard-test.pro:
 #for easier debug if proguard fails
 -keepattributes SourceFile,LineNumberTable
+
+# removes Warning: library class android.graphics.drawable.Drawable depends on program class org.xmlpull.v1.XmlPullParser
+-dontwarn org.xmlpull.v1.**
