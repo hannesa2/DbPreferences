@@ -5,7 +5,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.reflect.TypeToken
 import info.dbprefs.lib.DbPreferences
-import info.dbprefs.sample.R.id.*
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
