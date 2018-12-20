@@ -189,14 +189,22 @@ class DbPreferences {
     companion object {
         lateinit var appDatabase: PreferencesDatabase
 
+        lateinit private var factory: SafeHelperFactory
+
         @SuppressLint("CheckResult", "LogNotTimber")
         @JvmOverloads
         fun init(context: Context, @SuppressLint("HardwareIds") password: String = Settings.Secure.getString(context.getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID)) {
             // Room
-            val factory = SafeHelperFactory(password.toCharArray())
+            factory = SafeHelperFactory(password.toCharArray())
             appDatabase = Room.databaseBuilder(context, PreferencesDatabase::class.java, PreferencesDatabase.ROOM_DATABASE_NAME)
                     .openHelperFactory(factory).allowMainThreadQueries()
                     .build()
+        }
+
+        @SuppressLint("CheckResult", "LogNotTimber")
+        @JvmOverloads
+        fun initWithPrepare(context: Context, @SuppressLint("HardwareIds") password: String = Settings.Secure.getString(context.getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID)) {
+            init(context,password)
 
             val start = System.currentTimeMillis()
 
