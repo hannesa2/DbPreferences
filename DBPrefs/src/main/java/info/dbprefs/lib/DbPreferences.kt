@@ -1,10 +1,10 @@
 package info.dbprefs.lib
 
 import android.annotation.SuppressLint
-import androidx.room.Room
 import android.content.Context
 import android.provider.Settings
 import android.util.Log
+import androidx.room.Room
 import com.commonsware.cwac.saferoom.SafeHelperFactory
 import com.google.gson.Gson
 import info.dbprefs.lib.room.PreferencesDatabase
@@ -13,7 +13,11 @@ import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import java.io.File
+import java.io.FilenameFilter
 import java.lang.reflect.Type
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * An encrypted alternative to SharedPreferences. It's based on secure Room/SQlite and uses sqlcipher
@@ -191,9 +195,11 @@ class DbPreferences {
 
         lateinit private var factory: SafeHelperFactory
 
-        @SuppressLint("CheckResult", "LogNotTimber")
+        @SuppressLint("CheckResult")
         @JvmOverloads
         fun init(context: Context, @SuppressLint("HardwareIds") password: String = Settings.Secure.getString(context.getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID)) {
+            logDataBaseFile(context)
+
             // Room
             factory = SafeHelperFactory(password.toCharArray())
             appDatabase = Room.databaseBuilder(context, PreferencesDatabase::class.java, PreferencesDatabase.ROOM_DATABASE_NAME)
@@ -201,10 +207,10 @@ class DbPreferences {
                     .build()
         }
 
-        @SuppressLint("CheckResult", "LogNotTimber")
+        @SuppressLint("CheckResult")
         @JvmOverloads
         fun initWithPrepare(context: Context, @SuppressLint("HardwareIds") password: String = Settings.Secure.getString(context.getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID)) {
-            init(context,password)
+            init(context, password)
 
             val start = System.currentTimeMillis()
 
@@ -237,6 +243,24 @@ class DbPreferences {
                                 Log.e("second error init", it.message)
                             }
                     )
+        }
+
+        private fun logDataBaseFile(context: Context) {
+            var dbFile = context.getDatabasePath(PreferencesDatabase.ROOM_DATABASE_NAME)
+            dbFile?.let {
+                val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm.sss", Locale.getDefault())
+                if (it.exists()) {
+                    it.parentFile.listFiles(object : FilenameFilter {
+                        override fun accept(dir: File?, filename: String): Boolean {
+                            return filename.startsWith(PreferencesDatabase.ROOM_DATABASE_NAME)
+                        }
+                    }).forEach { foundFile ->
+                        Log.i("DbPreferences", foundFile.name + " last modified: " + sdf.format(Date(foundFile.lastModified())))
+                    }
+                } else {
+                    Log.w("DbPreferences", it.name + " does not exist")
+                }
+            }
         }
 
         fun destroy() {
