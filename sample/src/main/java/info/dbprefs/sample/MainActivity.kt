@@ -60,8 +60,8 @@ class MainActivity : AppCompatActivity() {
                 val listType = object : TypeToken<ArrayList<TestClass>>() {
                 }.type
                 val myList: ArrayList<TestClass>? = DbPreferences().get(MyConfigKeys.KEY_LIST, listType)
-                textViewInsert.setText("")
-                textViewRead.setText("read list has " + myList?.size.toString() + " items")
+                textViewInsert.text = ""
+                textViewRead.text = getString(R.string.readListCount) + myList?.size.toString()
             }
         }
 
