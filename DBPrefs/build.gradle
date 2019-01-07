@@ -39,7 +39,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.google.code.gson:gson:2.8.5'
 
-    implementation "com.commonsware.cwac:saferoom.x:1.0.0-alpha3"
+    implementation "com.commonsware.cwac:saferoom.x:1.0.0-beta1"
     implementation "androidx.room:room-runtime:$room"
     kapt "androidx.room:room-compiler:$roomruntime"
     implementation "androidx.room:room-rxjava2:$room"
