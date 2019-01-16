@@ -1,10 +1,10 @@
 package info.dbprefs.lib
 
 import android.annotation.SuppressLint
-import androidx.room.Room
 import android.content.Context
 import android.provider.Settings
 import android.util.Log
+import androidx.room.Room
 import com.commonsware.cwac.saferoom.SafeHelperFactory
 import com.google.gson.Gson
 import info.dbprefs.lib.room.PreferencesDatabase
@@ -166,6 +166,11 @@ class DbPreferences {
 
     fun contains(key: String): Boolean {
         return appDatabase.preferenceDao().countKey(key) == 1
+    }
+
+    // check not only if available, additional check it if it's parse-able
+    fun <T> contains(key: String, type: Type): Boolean {
+        return contains(key) && get<T>(key, type) != null
     }
 
     fun count(): Int {
