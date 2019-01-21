@@ -11,16 +11,10 @@ import com.android.tools.lint.detector.api.Scope;
 import com.android.tools.lint.detector.api.Severity;
 import com.intellij.psi.PsiMethod;
 
-import org.jetbrains.uast.UBinaryExpression;
 import org.jetbrains.uast.UCallExpression;
-import org.jetbrains.uast.UExpression;
 
 import java.util.Arrays;
 import java.util.List;
-
-import static com.android.tools.lint.detector.api.ConstantEvaluator.evaluateString;
-import static org.jetbrains.uast.UastLiteralUtils.isStringLiteral;
-import static org.jetbrains.uast.UastUtils.evaluateString;
 
 public final class DBPrefsUsageDetector extends Detector implements Detector.UastScanner {
 
@@ -36,12 +30,12 @@ public final class DBPrefsUsageDetector extends Detector implements Detector.Uas
 
         if (evaluator.isMemberInClass(method, "android.content.ContextWrapper")) {
             LintFix fix = quickFixIssueLog(call);
-            context.report(ISSUE_SHAREDPREFS, call, context.getLocation(call), "Using 'SharedPreferences' instead of 'DBPrefs'", fix);
+            context.report(ISSUE_SHARED_PREFS, call, context.getLocation(call), "Using 'SharedPreferences' instead of 'DBPrefs'", fix);
             return;
         }
 //        if (evaluator.isMemberInClass(method, "android.content.SharedPreferences")) {
 //            LintFix fix = quickFixIssueLog(call);
-//            context.report(ISSUE_SHAREDPREFS, call, context.getLocation(call), "Using 'SharedPreferences' instead of 'DBPrefs'", fix);
+//            context.report(ISSUE_SHARED_PREFS, call, context.getLocation(call), "Using 'SharedPreferences' instead of 'DBPrefs'", fix);
 //            return;
 //        }
     }
@@ -57,11 +51,11 @@ public final class DBPrefsUsageDetector extends Detector implements Detector.Uas
 
     static Issue[] getIssues() {
         return new Issue[]{
-                ISSUE_SHAREDPREFS
+                ISSUE_SHARED_PREFS
         };
     }
 
-    public static final Issue ISSUE_SHAREDPREFS =
+    public static final Issue ISSUE_SHARED_PREFS =
             Issue.create("SharedPrefsUsage", "SharedPreferences are used, use DBPrefs instead",
                     "Since SharedPreferences are used in the project, it is likely that calls to Preferences should instead be going to DBPrefs.",
                     Category.USABILITY, 5, Severity.INFORMATIONAL,

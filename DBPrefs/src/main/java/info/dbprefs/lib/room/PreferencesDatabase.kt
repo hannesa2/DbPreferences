@@ -5,14 +5,13 @@ import androidx.room.RoomDatabase
 
 import info.dbprefs.lib.room.entity.PreferenceRoom
 
-@Database(entities = arrayOf(PreferenceRoom::class), version = 1)
-abstract//@TypeConverters({DateConverter.class})
-class PreferencesDatabase : RoomDatabase() {
+@Database(entities = [PreferenceRoom::class], version = 1)
+abstract class PreferencesDatabase : RoomDatabase() {
 
     abstract fun preferenceDao(): PreferenceRoomDao
 
     companion object {
 
-        val ROOM_DATABASE_NAME = "dbPrefs.db"
+        const val ROOM_DATABASE_NAME = "dbPrefs.db"
     }
 }
