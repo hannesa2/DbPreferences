@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package info.dbprefs.lib
 
 import android.annotation.SuppressLint
@@ -42,7 +44,7 @@ class DbPreferences {
         return putSerialized(key, mParse.toJson(value))
     }
 
-    public fun putSerialized(key: ConfigKey, value: String?): Boolean {
+    fun putSerialized(key: ConfigKey, value: String?): Boolean {
         if (value != null) {
             val pref = PreferenceRoom()
             pref.key = key.keyname()
@@ -53,7 +55,7 @@ class DbPreferences {
     }
 
     @Deprecated(message = "Try to avoid using a String")
-    public fun putSerialized(key: String, value: String?): Boolean {
+    fun putSerialized(key: String, value: String?): Boolean {
         if (value != null) {
             val pref = PreferenceRoom()
             pref.key = key
@@ -101,7 +103,7 @@ class DbPreferences {
         return default
     }
 
-    public fun getSerialized(key: ConfigKey): String? {
+    fun getSerialized(key: ConfigKey): String? {
         val value = appDatabase.preferenceDao().getValue(key.keyname())
         return if (value == null)
             return null
@@ -110,7 +112,7 @@ class DbPreferences {
     }
 
     @Deprecated(message = "Try to avoid using a String")
-    public fun getSerialized(key: String): String? {
+    fun getSerialized(key: String): String? {
         val value = appDatabase.preferenceDao().getValue(key)
         return if (value == null)
             return null
@@ -179,7 +181,6 @@ class DbPreferences {
 
     fun clearAllExcept(vararg keys: ConfigKey) {
         appDatabase.preferenceDao().all.forEach { item ->
-            var keyList = keys.map { it.keyname() }
             if (!keys.map { it.keyname() }.contains(item.key)) {
                 appDatabase.preferenceDao().deleteByKey(item.key)
             }
@@ -240,7 +241,7 @@ class DbPreferences {
             appDatabase.close()
         }
 
-        private val ERROR_KEY_CANNOT_BE_NULL = "Key cannot be null"
+        private const val ERROR_KEY_CANNOT_BE_NULL = "Key cannot be null"
     }
 
 }

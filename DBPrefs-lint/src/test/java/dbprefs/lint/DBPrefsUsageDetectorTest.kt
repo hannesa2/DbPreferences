@@ -33,7 +33,7 @@ class DBPrefsUsageDetectorTest {
                 |  }
                 |}""".trimMargin())
                 )
-                .issues(DBPrefsUsageDetector.ISSUE_SHAREDPREFS)
+                .issues(DBPrefsUsageDetector.ISSUE_SHARED_PREFS)
                 .run()
                 .expect("""
                 |src/foo/Example.java:6: Information: Using 'SharedPreferences' instead of 'DBPrefs' [SharedPrefsUsage]
