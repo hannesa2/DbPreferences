@@ -60,7 +60,7 @@ script:
   - set -o pipefail
   - ./gradlew clean build :DBPrefs:javadocJar :DBPrefs-lint:test :DBPrefs:assembleDebugAndroidTest :DBPrefs:check --profile --continue 2>&1 | tee build.log
   - set +o pipefail
-  - ./gradlew connectedAndroidTest
+  - ./gradlew connectedUseOldLibReleaseAndroidTest
 
 before_cache:
   - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock

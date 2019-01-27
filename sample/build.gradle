@@ -58,6 +58,16 @@ android {
             signingConfig signingConfigs.release
         }
     }
+
+    flavorDimensions "historic"
+    productFlavors {
+        useOldLib { // build with recent from jitpack.io
+            dimension "historic"
+        }
+        useRecentCode { // build with recent code
+            dimension "historic"
+        }
+    }
 }
 
 dependencies {
@@ -66,7 +76,8 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation project(':DBPrefs')
+    useRecentCodeImplementation project(':DBPrefs')
+    useOldLibImplementation "com.github.hannesa2:DbPreferences:4.1"
 
     androidTestImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.1'
