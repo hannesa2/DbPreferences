@@ -58,15 +58,26 @@ android {
             signingConfig signingConfigs.release
         }
     }
+
+    flavorDimensions "historic"
+    productFlavors {
+        useOldLib { // build with recent from jitpack.io
+            dimension "historic"
+        }
+        useRecentCode { // build with recent code
+            dimension "historic"
+        }
+    }
 }
 
 dependencies {
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
-    implementation 'androidx.multidex:multidex:2.0.0'    // minsdk <= 20
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha3'
+    implementation 'androidx.multidex:multidex:2.0.1'    // minsdk <= 20
     implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation project(':DBPrefs')
+    useRecentCodeImplementation project(':DBPrefs')
+    useOldLibImplementation "com.github.hannesa2:DbPreferences:4.1"
 
     androidTestImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.1'
