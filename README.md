@@ -76,7 +76,7 @@ allprojects {
 ```
 ```Gradle
 dependencies {
-    implementation 'com.github.hannesa2:DbPreferences:4.0' // AndroidX
+    implementation 'com.github.hannesa2:DbPreferences:5.0' // AndroidX
     // or
     implementation 'com.github.hannesa2:DbPreferences:3.4' // Support Library
 }
