@@ -4,15 +4,22 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'digital.wup.android-maven-publish'
 apply plugin: 'org.jetbrains.dokka-android'
 
-String dbPrefsVersionName = "2.0"
 android {
     compileSdkVersion defaultCompileSdkVersion
 
     defaultConfig {
         minSdkVersion defaultMinSdkVersion
         targetSdkVersion defaultTargetSdkVersion
-        versionCode 1
-        versionName dbPrefsVersionName
+        versionCode getGitCommitCount()
+        versionName getVersionName()
+
+        buildConfigField "String", "GIT_COMMIT_SHA1", "\"" + getLatestGitHash() + "\""
+        buildConfigField "String", "GIT_COMMIT_URL", "\"" + getGitCommitUrl() + "\""
+        buildConfigField "String", "GIT_REPO_URL", "\"" + getGitRepoUrl() + "\""
+        buildConfigField "String", "GIT_TAG_URL", "\"" + getGitRepoUrl() + "/tags" + "\""
+        buildConfigField "String", "CI_BUILD_ID", "\"" + getBuildId() + "\""
+        buildConfigField "String", "CI_BUILD_URL", "\"" + getBuildUrl() + "\""
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         // For Instrumentation Unit testing
         consumerProguardFile('proguard-rules.pro')
@@ -29,7 +36,7 @@ publishing {
         mavenAar(MavenPublication) {
             groupId = 'com.github.hannesa2'
             artifactId = 'DbPreferences'
-            version = dbPrefsVersionName
+            version = getVersionName()
             from components.android
         }
     }
@@ -90,4 +97,62 @@ task javadocJar(type: Jar, dependsOn: dokkaJavadoc) {
 
 artifacts {
     archives javadocJar
+}
+
+private static def getGitCommitCount() {
+    try {
+        return 'git rev-list --first-parent --count HEAD'.execute().text.trim() as Integer
+    }
+    catch (ignored) {
+        return 0
+    }
+}
+
+private static def getLatestGitHash() {
+    try {
+        return 'git rev-parse --short HEAD'.execute().text.trim()
+    }
+    catch (ignored) {
+        return null
+    }
+}
+
+static def getCreateTime() {
+    def process = "date +%F".execute()
+    return process.text.toString().trim()
+}
+
+static private def getVersionName() {
+    println "Version: " + getCreateTime() + "." + getGitCommitCount() + "-" + getLatestGitHash()
+    return getCreateTime() + "." + getGitCommitCount() + "-" + getLatestGitHash()
+}
+
+static def getGitCommitUrl() {
+    return getGitRepoUrl() + "/commit/" + getLatestGitHash()
+}
+
+static def getGitRepoUrl() {
+    def process = "git remote get-url origin --push".execute()
+    return process.text.toString().replace(".git", "").trim()
+}
+
+static def getBuildId() {
+    return System.getenv("TRAVIS_BUILD_ID")
+}
+
+static def getBuildUrl() {
+    if (System.getenv("CI_SERVER")) {
+        return getBuildId()
+    } else {
+        println "buildID:" + "https://travis-ci.org/" + System.getenv("TRAVIS_REPO_SLUG") + "/builds/" + getBuildId()
+        println "TRAVIS_BUILD_DIR:" + System.getenv("TRAVIS_BUILD_DIR")
+        println "TRAVIS_BUILD_ID:" + System.getenv("TRAVIS_BUILD_ID")
+        println "TRAVIS_BUILD_NUMBER:" + System.getenv("TRAVIS_BUILD_NUMBER")
+        println "TRAVIS_COMMIT:" + System.getenv("TRAVIS_COMMIT")
+        println "TRAVIS_COMMIT_MESSAGE:" + System.getenv("TRAVIS_COMMIT_MESSAGE")
+        println "TRAVIS_COMMIT_RANGE:" + System.getenv("TRAVIS_COMMIT_RANGE")
+        println "TRAVIS_JOB_ID:" + System.getenv("TRAVIS_JOB_ID")
+        println "TRAVIS_JOB_NUMBER:" + System.getenv("TRAVIS_JOB_NUMBER")
+        return "https://travis-ci.org/" + System.getenv("TRAVIS_REPO_SLUG") + "/builds/" + getBuildId()
+    }
 }
