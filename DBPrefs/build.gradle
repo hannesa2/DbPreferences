@@ -17,8 +17,9 @@ android {
         buildConfigField "String", "GIT_COMMIT_URL", "\"" + getGitCommitUrl() + "\""
         buildConfigField "String", "GIT_REPO_URL", "\"" + getGitRepoUrl() + "\""
         buildConfigField "String", "GIT_TAG_URL", "\"" + getGitRepoUrl() + "/tags" + "\""
-        buildConfigField "String", "CI_BUILD_ID", "\"" + getBuildId() + "\""
-        buildConfigField "String", "CI_BUILD_URL", "\"" + getBuildUrl() + "\""
+        buildConfigField "String", "TRAVIS_BUILD_ID", "\"" + getTravisBuildId() + "\""
+        buildConfigField "String", "TRAVIS_BUILD_URL", "\"" + getTravisBuildUrl() + "\""
+        buildConfigField "String", "JITPACK_BUILD_URL", "\"" + getJitpackBuildUrl() + "\""
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         // For Instrumentation Unit testing
@@ -136,15 +137,15 @@ static def getGitRepoUrl() {
     return process.text.toString().replace(".git", "").trim()
 }
 
-static def getBuildId() {
+static def getTravisBuildId() {
     return System.getenv("TRAVIS_BUILD_ID")
 }
 
-static def getBuildUrl() {
+static def getTravisBuildUrl() {
     if (System.getenv("CI_SERVER")) {
-        return getBuildId()
+        return getTravisBuildId()
     } else {
-        println "buildID:" + "https://travis-ci.org/" + System.getenv("TRAVIS_REPO_SLUG") + "/builds/" + getBuildId()
+        println "buildID:" + "https://travis-ci.org/" + System.getenv("TRAVIS_REPO_SLUG") + "/builds/" + getTravisBuildId()
         println "TRAVIS_BUILD_DIR:" + System.getenv("TRAVIS_BUILD_DIR")
         println "TRAVIS_BUILD_ID:" + System.getenv("TRAVIS_BUILD_ID")
         println "TRAVIS_BUILD_NUMBER:" + System.getenv("TRAVIS_BUILD_NUMBER")
@@ -153,6 +154,11 @@ static def getBuildUrl() {
         println "TRAVIS_COMMIT_RANGE:" + System.getenv("TRAVIS_COMMIT_RANGE")
         println "TRAVIS_JOB_ID:" + System.getenv("TRAVIS_JOB_ID")
         println "TRAVIS_JOB_NUMBER:" + System.getenv("TRAVIS_JOB_NUMBER")
-        return "https://travis-ci.org/" + System.getenv("TRAVIS_REPO_SLUG") + "/builds/" + getBuildId()
+        return "https://travis-ci.org/" + System.getenv("TRAVIS_REPO_SLUG") + "/builds/" + getTravisBuildId()
     }
+}
+
+static def getJitpackBuildUrl() {
+    def process = ("git describe --exact-match " + getLatestGitHash() + " 2>/dev/null | echo noTag").execute()
+    return "https://jitpack.io/com/github/hannesa2/DbPreferences/" + process.text.toString().replace("noTag", "").trim() + "/build.log"
 }
