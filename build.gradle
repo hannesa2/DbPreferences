@@ -11,12 +11,8 @@ buildscript {
         classpath 'digital.wup:android-maven-publish:3.6.2'
         classpath "org.jetbrains.dokka:dokka-android-gradle-plugin:${dokka_version}"
         classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.8.5'
+        classpath "com.github.ben-manes:gradle-versions-plugin:0.20.0" // ./gradlew dependencyUpdates
     }
-}
-
-plugins {
-    // ./gradlew dependencyUpdates
-    id 'com.github.ben-manes.versions' version '0.20.0'
 }
 
 allprojects {
