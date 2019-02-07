@@ -47,7 +47,8 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.google.code.gson:gson:2.8.5'
 
-    implementation "com.github.hannesa2:cwac-saferoom:1.0.0"
+    //noinspection GradleDependency
+    implementation "com.github.hannesa2:cwac-saferoom:1.0.0.Trust"
     implementation "androidx.room:room-runtime:$room"
     kapt "androidx.room:room-compiler:$roomruntime"
     implementation "androidx.room:room-rxjava2:$room"
@@ -160,5 +161,5 @@ static def getTravisBuildUrl() {
 
 static def getJitpackBuildUrl() {
     def process = ("git describe --exact-match " + getLatestGitHash() + " 2>/dev/null | echo noTag").execute()
-    return "https://jitpack.io/com/github/hannesa2/DbPreferences/" + process.text.toString().replace("noTag", "").trim() + "/build.log"
+    return getGitRepoUrl().replace("https://github.com", "https://jitpack.io/com/github") + "/" + process.text.toString().replace("noTag", "").trim() + "/build.log"
 }
