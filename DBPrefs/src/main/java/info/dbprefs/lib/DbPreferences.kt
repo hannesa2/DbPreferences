@@ -197,7 +197,7 @@ class DbPreferences {
         @JvmOverloads
         fun init(context: Context, password: String = Settings.Secure.getString(context.getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID)) {
             // Room
-            val factory = SafeHelperFactory(password.toCharArray(), SafeHelperFactory.POST_KEY_SQL_V3)
+            val factory = SafeHelperFactory(password.toCharArray())
             appDatabase = Room.databaseBuilder(context, PreferencesDatabase::class.java, PreferencesDatabase.ROOM_DATABASE_NAME)
                     .openHelperFactory(factory).allowMainThreadQueries()
                     .build()
