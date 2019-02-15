@@ -1,0 +1,3 @@
+[submodule "cwac-saferoom"]
+	path = cwac-saferoom
+	url = https://github.com/hannesa2/cwac-saferoom.git
