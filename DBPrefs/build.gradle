@@ -48,7 +48,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.5'
 
     //noinspection GradleDependency
-    implementation "com.github.hannesa2:cwac-saferoom:1.0.0-Trust-alpha3"
+    implementation "com.github.hannesa2:cwac-saferoom:1.0.0.Trust1"
     implementation "androidx.room:room-runtime:$room"
     kapt "androidx.room:room-compiler:$roomruntime"
     implementation "androidx.room:room-rxjava2:$room"
