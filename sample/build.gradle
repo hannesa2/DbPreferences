@@ -71,7 +71,7 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta2'
     implementation 'androidx.multidex:multidex:2.0.1'    // minsdk <= 20
     implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'com.google.code.gson:gson:2.8.5'
