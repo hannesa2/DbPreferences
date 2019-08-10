@@ -2,6 +2,7 @@
 
 package info.dbprefs.lib
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.provider.Settings
 import android.util.Log
@@ -195,7 +196,7 @@ class DbPreferences {
         lateinit var appDatabase: PreferencesDatabase
 
         @JvmOverloads
-        fun init(context: Context, password: String = Settings.Secure.getString(context.getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID)) {
+        fun init(context: Context, @SuppressLint("HardwareIds") password: String = Settings.Secure.getString(context.getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID)) {
             // Room
             val factory = SafeHelperFactory(password.toCharArray())
             appDatabase = Room.databaseBuilder(context, PreferencesDatabase::class.java, PreferencesDatabase.ROOM_DATABASE_NAME)
