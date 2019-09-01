@@ -53,7 +53,6 @@ android {
             //test apk will have proguard applied to it so we detect any crashes or anomalies during espresso tests
             testProguardFiles getDefaultProguardFile('proguard-android.txt'), "$projectDir/proguard-rules.pro", "$projectDir/proguard-test-rules.pro"
             minifyEnabled true
-            useProguard true
             shrinkResources true
             signingConfig signingConfigs.release
         }
