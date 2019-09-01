@@ -103,6 +103,8 @@ class DbPreferences {
         return default
     }
 
+    fun isOpen() = appDatabase.isOpen
+
     fun getSerialized(key: ConfigKey): String? {
         val value = appDatabase.preferenceDao().getValue(key.keyname())
         return if (value == null)
