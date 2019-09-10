@@ -197,11 +197,16 @@ class DbPreferences {
     companion object {
         lateinit var appDatabase: PreferencesDatabase
 
+        @SuppressLint("CheckResult")
         @JvmOverloads
-        fun init(context: Context, @SuppressLint("HardwareIds") password: String = Settings.Secure.getString(context.getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID)) {
+        fun init(
+                context: Context,
+                @SuppressLint("HardwareIds")
+                password: String = Settings.Secure.getString(context.applicationContext.contentResolver, Settings.Secure.ANDROID_ID),
+                dbName: String = PreferencesDatabase.ROOM_DATABASE_NAME) {
             // Room
             val factory = SafeHelperFactory(password.toCharArray())
-            appDatabase = Room.databaseBuilder(context, PreferencesDatabase::class.java, PreferencesDatabase.ROOM_DATABASE_NAME)
+            appDatabase = Room.databaseBuilder(context, PreferencesDatabase::class.java, dbName)
                     .openHelperFactory(factory).allowMainThreadQueries()
                     .build()
 
