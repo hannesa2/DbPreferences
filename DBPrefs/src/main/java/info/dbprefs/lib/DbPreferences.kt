@@ -203,7 +203,8 @@ class DbPreferences {
                 context: Context,
                 @SuppressLint("HardwareIds")
                 password: String = Settings.Secure.getString(context.applicationContext.contentResolver, Settings.Secure.ANDROID_ID),
-                dbName: String = PreferencesDatabase.ROOM_DATABASE_NAME) {
+                dbName: String = PreferencesDatabase.ROOM_DATABASE_NAME,
+                initOpen: Boolean = true) {
             // Room
             val factory = SafeHelperFactory(password.toCharArray())
             appDatabase = Room.databaseBuilder(context, PreferencesDatabase::class.java, dbName)
@@ -213,11 +214,13 @@ class DbPreferences {
             val start = System.currentTimeMillis()
 
             // the first access need > 150 ms, to avoid the long time on main thread, it makes the first call in io-thread
-            Completable.fromAction {
-                appDatabase.preferenceDao().getValueFlowable("reduceFirstAccessTime")
-            }.subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe { Log.d("time init", (System.currentTimeMillis() - start).toString() + " ms") }
+            if (initOpen) {
+                Completable.fromAction {
+                    appDatabase.preferenceDao().getValueFlowable("reduceFirstAccessTime")
+                }.subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe { Log.d("time init", (System.currentTimeMillis() - start).toString() + " ms") }
+            }
         }
 
         fun destroy() {
