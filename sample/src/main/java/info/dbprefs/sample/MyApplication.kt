@@ -1,8 +1,9 @@
 package info.dbprefs.sample
 
-import info.dbprefs.lib.DbPreferences
 import android.os.StrictMode
+import android.util.Log
 import androidx.multidex.MultiDexApplication
+import info.dbprefs.lib.DbPreferences
 
 
 class MyApplication : MultiDexApplication() {
@@ -25,6 +26,11 @@ class MyApplication : MultiDexApplication() {
                 .penaltyLog()
                 .penaltyDeath()
                 .build())
+
+
+        Log.w("onCreate()", "dbOpen=s" + DbPreferences().isOpen())
+        val value: String? = DbPreferences().get(MyConfigKeys.KEY_STRING, String::class.java)
+        Log.w("onCreate()", "value=" + value + " dbOpen=s" + DbPreferences().isOpen())
     }
 
     override fun onTerminate() {

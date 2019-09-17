@@ -39,7 +39,7 @@ class MainActivityTest {
         button.check(matches(isDisplayed()))
 
         val button2 = onView(
-                allOf(withId(R.id.buttonLoad),
+                allOf(withId(R.id.buttonRead),
                         childAtPosition(
                                 allOf(withId(R.id.layoutLoad),
                                         childAtPosition(

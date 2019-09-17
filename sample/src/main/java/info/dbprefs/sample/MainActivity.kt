@@ -14,12 +14,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        buttonLoad.setOnClickListener {
+        buttonRead.setOnClickListener {
             run {
-                val string: String? = DbPreferences().get(MyConfigKeys.KEY_STRING, String::class.java)
+                val value: String? = DbPreferences().get(MyConfigKeys.KEY_STRING, String::class.java)
                 val testClass = DbPreferences().get<TestClass>(MyConfigKeys.KEY_OBJECT, TestClass::class.java)
                 textViewObject.setText(testClass?.memberA ?: "empty")
-                textView.setText(string ?: "empty")
+                textView.setText(value ?: "empty")
+                textViewInsert.text = (value ?: "empty") + " isOpen=" + DbPreferences().isOpen()
             }
         }
 
@@ -39,14 +40,14 @@ class MainActivity : AppCompatActivity() {
                 for (item: Int in 1..2000) {
                     prefs.put(MyConfigKeys.KEY_STRING, "value" + item)
                 }
-                textViewInsert.setText("time 2000 insert " + (System.currentTimeMillis() - start).toString() + " ms")
+                textViewInsert.text = "time 2000 insert " + (System.currentTimeMillis() - start).toString() + " ms"
 
                 start = System.currentTimeMillis()
                 for (item: Int in 1..2000) {
                     @Suppress("UNUSED_VARIABLE")
                     var value: String? = prefs.get(MyConfigKeys.KEY_STRING, String::class.java)
                 }
-                textViewRead.setText("time 2000 get " + (System.currentTimeMillis() - start).toString() + " ms")
+                textViewRead.text = "time 2000 get " + (System.currentTimeMillis() - start).toString() + " ms"
             }
         }
 
