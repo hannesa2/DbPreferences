@@ -6,6 +6,7 @@ import com.google.gson.stream.JsonToken
 import com.google.gson.stream.JsonWriter
 
 import java.io.IOException
+
 //taken from https://www.tutorialspoint.com/gson/gson_custom_adapters.htm
 internal class StudentAdapter : TypeAdapter<Student>() {
     @Throws(IOException::class)

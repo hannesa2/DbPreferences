@@ -32,13 +32,13 @@ class MainActivity : AppCompatActivity() {
         }
 
         buttonPerformance.setOnClickListener {
-            textViewInsert.setText("")
-            textViewRead.setText("")
+            textViewInsert.text = ""
+            textViewRead.text = ""
             run {
                 var start = System.currentTimeMillis()
                 val prefs = DbPreferences()
                 for (item: Int in 1..2000) {
-                    prefs.put(MyConfigKeys.KEY_STRING, "value" + item)
+                    prefs.put(MyConfigKeys.KEY_STRING, "value$item")
                 }
                 textViewInsert.text = "time 2000 insert " + (System.currentTimeMillis() - start).toString() + " ms"
 
