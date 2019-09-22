@@ -77,7 +77,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     useRecentCodeImplementation project(':DBPrefs')
     //noinspection GradleDependency
-    useOldLibImplementation "com.github.hannesa2:DbPreferences:4.1"
+    useOldLibImplementation "com.github.hannesa2:DbPreferences:5.3.2"
 
     androidTestImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
