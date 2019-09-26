@@ -1,5 +1,6 @@
 package info.dbprefs.sample
 
+import android.util.EventLogTags
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
@@ -17,6 +18,7 @@ import org.hamcrest.core.IsInstanceOf
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.util.regex.Matcher
 
 @LargeTest
 @RunWith(AndroidJUnit4::class)
@@ -54,12 +56,12 @@ class MainActivityTest {
             parentMatcher: Matcher<View>, position: Int): Matcher<View> {
 
         return object : TypeSafeMatcher<View>() {
-            override fun describeTo(description: Description) {
+            override fun describeTo(description: EventLogTags.Description) {
                 description.appendText("Child at position $position in parent ")
                 parentMatcher.describeTo(description)
             }
 
-            public override fun matchesSafely(view: View): Boolean {
+            override fun matchesSafely(view: View): Boolean {
                 val parent = view.parent
                 return parent is ViewGroup && parentMatcher.matches(parent)
                         && view == parent.getChildAt(position)

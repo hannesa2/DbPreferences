@@ -8,7 +8,7 @@ import java.util.Arrays
 
 class DBPrefsIssueRegistry : IssueRegistry() {
     override val issues: List<Issue>
-        get() = Arrays.asList(*DBPrefsUsageDetector.getIssues())
+        get() = Arrays.asList(*DBPrefsUsageDetector.issues)
 
     override val api: Int
         get() = CURRENT_API

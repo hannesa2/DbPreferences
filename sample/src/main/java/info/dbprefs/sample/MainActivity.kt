@@ -1,11 +1,18 @@
 package info.dbprefs.sample
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
+import android.view.View
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.reflect.TypeToken
 import info.dbprefs.lib.DbPreferences
 import kotlinx.android.synthetic.main.activity_main.*
+import java.util.*
+import kotlin.collections.ArrayList
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -13,6 +20,17 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val sharedPreferences = getSharedPreferences("com.example.app", Context.MODE_PRIVATE)
+        val l = sharedPreferences.getLong("xxx", Date().time)
+        sharedPreferences.edit().putLong("xxx", 11).apply()
+
+        val btn = Button(this)
+        btn.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(v: View) {
+                Log.d("x", "y")
+            }
+        })
 
         buttonRead.setOnClickListener {
             run {
