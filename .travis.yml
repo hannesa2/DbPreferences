@@ -21,7 +21,7 @@ android:
   components:
     - tools
     - platform-tools
-    - build-tools-28.0.3
+    - build-tools-29.0.2
     - android-28
     - doc-27
 
@@ -58,7 +58,7 @@ install:
 
 script:
   - set -o pipefail
-  - ./gradlew clean build :DBPrefs:javadocJar :DBPrefs-lint:test :DBPrefs:assembleDebugAndroidTest :DBPrefs:check --profile --continue 2>&1 | tee build.log
+  - ./gradlew clean build :DBPrefs:javadocJar :DBPrefs-lint:test :DBPrefs:assembleDebugAndroidTest :DBPrefs:check --profile --stacktrace --continue 2>&1 | tee build.log
   - set +o pipefail
 #  - ./gradlew connectedUseOldLibReleaseAndroidTest
 
