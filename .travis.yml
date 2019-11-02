@@ -1,5 +1,5 @@
 sudo: true
-language: generic
+language: android
 dist: bionic
 
 addons:
@@ -56,21 +56,21 @@ before_install:
   # Accept all Android license agreements
   - yes | sdkmanager --licenses
 
-#android:
-#  components:
-#    - tools
-#    - platform-tools
-#    - build-tools-29.0.2
-#    - android-28
+android:
+  components:
+    - tools
+    - platform-tools
+    - build-tools-29.0.2
+    - android-28
 #    - doc-27
 
 install:
   # Download SDK tools
-  - echo y | sdkmanager "platform-tools" >/dev/null
-  - echo y | sdkmanager "tools" >/dev/null # A second time per Travis docs, gets latest versions
-  - echo y | sdkmanager "build-tools;29.0.2" >/dev/null # Implicit gradle dependency - gradle drives changes
+  #- echo y | sdkmanager "platform-tools" >/dev/null
+  #- echo y | sdkmanager "tools" >/dev/null # A second time per Travis docs, gets latest versions
+  #- echo y | sdkmanager "build-tools;29.0.2" >/dev/null # Implicit gradle dependency - gradle drives changes
   - echo y | sdkmanager "platforms;android-$API" >/dev/null # We need the API of the emulator we will run
-  - echo y | sdkmanager "platforms;android-28" >/dev/null # We need the API of the current compileSdkVersion from gradle.properties
+  #- echo y | sdkmanager "platforms;android-28" >/dev/null # We need the API of the current compileSdkVersion from gradle.properties
   - echo y | sdkmanager "emulator" >/dev/null
   - echo y | sdkmanager "extras;android;m2repository" >/dev/null
   - echo y | sdkmanager "system-images;android-$API;$EMU_FLAVOR;$ABI" >/dev/null # install our emulator
