@@ -42,7 +42,7 @@ android {
         targetCompatibility 1.8
         sourceCompatibility 1.8
     }
-    testBuildType "release"
+//    testBuildType "release"
     buildTypes {
         debug {
             applicationIdSuffix ".debug"
@@ -70,10 +70,10 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta2'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta3'
     implementation 'androidx.multidex:multidex:2.0.1'    // minsdk <= 20
     implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.google.code.gson:gson:2.8.6'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     useRecentCodeImplementation project(':DBPrefs')
     //noinspection GradleDependency

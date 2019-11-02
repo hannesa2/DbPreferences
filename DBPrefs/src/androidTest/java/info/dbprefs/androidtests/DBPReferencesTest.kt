@@ -37,13 +37,13 @@ class DBPReferencesTest {
     @Test
     fun testClearAllExcept() {
         add3Items()
-        Assert.assertEquals(3, dbPrefs.count())
+        assertEquals(3, dbPrefs.count())
         dbPrefs.clearAllExcept(TestConfigKeys.KEY_STRING, TestConfigKeys.KEY_OBJECT)
-        Assert.assertEquals(2, dbPrefs.count())
+        assertEquals(2, dbPrefs.count())
 
         add3Items()
         dbPrefs.clearAllExcept(TestConfigKeys.KEY_OBJECT)
-        Assert.assertEquals(1, dbPrefs.count())
+        assertEquals(1, dbPrefs.count())
     }
 
     private fun add3Items() {
@@ -82,18 +82,18 @@ class DBPReferencesTest {
 
         // check for default value
         value = dbPrefs.get(TestConfigKeys.KEY_STRING, String::class.java, "BB")
-        Assert.assertEquals(value, "BB")
+        assertEquals(value, "BB")
 
         // read
         dbPrefs.put(TestConfigKeys.KEY_STRING, "AA")
         value = dbPrefs.get(TestConfigKeys.KEY_STRING, String::class.java)
-        Assert.assertEquals(value, "AA")
+        assertEquals(value, "AA")
     }
 
     @Test
     fun testDefaultValueReturned() {
         val value: String? = dbPrefs.get("notexistingString", String::class.java, "defaultValue")
-        Assert.assertEquals("defaultValue", value)
+        assertEquals("defaultValue", value)
     }
 
     @Test
@@ -103,12 +103,12 @@ class DBPReferencesTest {
 
         // check for default value
         value = dbPrefs.get(TestConfigKeys.KEY_INTEGER, Integer::class.java, 7)
-        Assert.assertEquals(value, 7)
+        assertEquals(value, 7)
 
         // read
         dbPrefs.put(TestConfigKeys.KEY_INTEGER, 9)
         value = dbPrefs.get(TestConfigKeys.KEY_INTEGER, Integer::class.java)
-        Assert.assertEquals(value, 9)
+        assertEquals(value, 9)
     }
 
     @Test
@@ -120,13 +120,13 @@ class DBPReferencesTest {
 
         // check for default value
         value = dbPrefs.get(TestConfigKeys.KEY_OBJECT, TestClass::class.java, testClass)
-        Assert.assertEquals(value, testClass)
+        assertEquals(value, testClass)
 
         // read
         testClass = TestClass("cc", "dd")
         dbPrefs.put(TestConfigKeys.KEY_OBJECT, testClass)
         value = dbPrefs.get(TestConfigKeys.KEY_OBJECT, TestClass::class.java)
-        Assert.assertEquals(value.toString(), testClass.toString())
+        assertEquals(value.toString(), testClass.toString())
     }
 
     @Test
@@ -143,12 +143,12 @@ class DBPReferencesTest {
 
         // check for default value
         value = dbPrefs.get(TestConfigKeys.KEY_LIST, listType, listSource)
-        Assert.assertEquals(2, value.size)
+        assertEquals(2, value.size)
 
         // read
         dbPrefs.put(TestConfigKeys.KEY_LIST, listSource)
         value = dbPrefs.get(TestConfigKeys.KEY_LIST, listType)
-        Assert.assertEquals(2, value?.size)
+        assertEquals(2, value?.size)
     }
 
     @Test
@@ -160,20 +160,20 @@ class DBPReferencesTest {
 
         dbPrefs.clearAll()
         // all must be deleted
-        Assert.assertEquals(false, dbPrefs.contains(TestConfigKeys.KEY_LIST))
-        Assert.assertEquals(false, dbPrefs.contains(TestConfigKeys.KEY_STRING))
-        Assert.assertEquals(false, dbPrefs.contains(TestConfigKeys.KEY_INTEGER))
-        Assert.assertEquals(false, dbPrefs.contains(TestConfigKeys.KEY_OBJECT))
+        assertEquals(false, dbPrefs.contains(TestConfigKeys.KEY_LIST))
+        assertEquals(false, dbPrefs.contains(TestConfigKeys.KEY_STRING))
+        assertEquals(false, dbPrefs.contains(TestConfigKeys.KEY_INTEGER))
+        assertEquals(false, dbPrefs.contains(TestConfigKeys.KEY_OBJECT))
 
         dbPrefs.put(TestConfigKeys.KEY_OBJECT, testClass)
         dbPrefs.put(TestConfigKeys.KEY_INTEGER, 9)
         dbPrefs.put(TestConfigKeys.KEY_STRING, "aa")
         dbPrefs.put(TestConfigKeys.KEY_LIST, listSource)
 
-        Assert.assertEquals(true, dbPrefs.contains(TestConfigKeys.KEY_LIST))
-        Assert.assertEquals(true, dbPrefs.contains(TestConfigKeys.KEY_STRING))
-        Assert.assertEquals(true, dbPrefs.contains(TestConfigKeys.KEY_INTEGER))
-        Assert.assertEquals(true, dbPrefs.contains(TestConfigKeys.KEY_OBJECT))
+        assertEquals(true, dbPrefs.contains(TestConfigKeys.KEY_LIST))
+        assertEquals(true, dbPrefs.contains(TestConfigKeys.KEY_STRING))
+        assertEquals(true, dbPrefs.contains(TestConfigKeys.KEY_INTEGER))
+        assertEquals(true, dbPrefs.contains(TestConfigKeys.KEY_OBJECT))
 
         dbPrefs.remove(TestConfigKeys.KEY_OBJECT)
         dbPrefs.remove(TestConfigKeys.KEY_INTEGER)
@@ -181,10 +181,10 @@ class DBPReferencesTest {
         dbPrefs.remove(TestConfigKeys.KEY_LIST)
 
         // all must be deleted
-        Assert.assertEquals(false, dbPrefs.contains(TestConfigKeys.KEY_LIST))
-        Assert.assertEquals(false, dbPrefs.contains(TestConfigKeys.KEY_STRING))
-        Assert.assertEquals(false, dbPrefs.contains(TestConfigKeys.KEY_INTEGER))
-        Assert.assertEquals(false, dbPrefs.contains(TestConfigKeys.KEY_OBJECT))
+        assertEquals(false, dbPrefs.contains(TestConfigKeys.KEY_LIST))
+        assertEquals(false, dbPrefs.contains(TestConfigKeys.KEY_STRING))
+        assertEquals(false, dbPrefs.contains(TestConfigKeys.KEY_INTEGER))
+        assertEquals(false, dbPrefs.contains(TestConfigKeys.KEY_OBJECT))
     }
 
     @Suppress("UNUSED_VARIABLE")
