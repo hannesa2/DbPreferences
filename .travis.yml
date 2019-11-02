@@ -1,70 +1,110 @@
-language: android
-
-branches:
-  only:
-    - master
-
 sudo: true
+language: generic
+dist: bionic
 
-jdk:
-  - oraclejdk8
+addons:
+  apt:
+    packages:
+      - bridge-utils
+      - libpulse0
+      - libvirt-bin
+      - qemu-kvm
+      - virtinst
+      - ubuntu-vm-builder
 
 env:
   global:
-    # Where to run androidTests
-    - EMULATOR_API=22 # 24 has some issues, probably some overlayed window
-    - EMULATOR_ABI=armeabi-v7a
-    - EMULATOR_TAG=default
-    - PATH=$ANDROID_HOME:$ANDROID_HOME/emulator:$ANDROID_HOME/platform-tools:$PATH
+    - ABI=x86_64
+    - API=29
+    - ADB_INSTALL_TIMEOUT=8
+    - ANDROID_HOME=${HOME}/android-sdk
+    - ANDROID_TOOLS_URL="https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip"
+    - EMU_FLAVOR=default # use google_apis flavor if no default flavor emulator
+    - GRAVIS="https://raw.githubusercontent.com/DanySK/Gravis-CI/master/"
+    - JDK="1.8"
+    - TOOLS=${ANDROID_HOME}/tools
+    # PATH order is incredibly important. e.g. the 'emulator' script exists in more than one place!
+    - PATH=${ANDROID_HOME}:${ANDROID_HOME}/emulator:${TOOLS}:${TOOLS}/bin:${ANDROID_HOME}/platform-tools:${PATH}
 
-android:
-  components:
-    - tools
-    - platform-tools
-    - build-tools-29.0.2
-    - android-28
-    - doc-27
+#branches:
+#  only:
+#    - master
+#
+#jdk:
+#  - oraclejdk8
+
+before_install:
+  # Set up KVM
+  - sudo adduser $USER libvirt
+  - sudo adduser $USER kvm
+
+  # Set up JDK 8 for Android SDK
+  - curl "${GRAVIS}.install-jdk-travis.sh" --output ~/.install-jdk-travis.sh
+  - export TARGET_JDK="${JDK}"
+  - JDK="1.8"
+  - source ~/.install-jdk-travis.sh
+
+  # Set up Android SDK
+  - wget -q "${ANDROID_TOOLS_URL}" -O android-sdk-tools.zip
+  - unzip -q android-sdk-tools.zip -d ${ANDROID_HOME}
+  - rm android-sdk-tools.zip
+
+  # Avoid harmless sdkmanager warning
+  - mkdir ~/.android
+  - echo 'count=0' > ~/.android/repositories.cfg
+
+  # Accept all Android license agreements
+  - yes | sdkmanager --licenses
+
+#android:
+#  components:
+#    - tools
+#    - platform-tools
+#    - build-tools-29.0.2
+#    - android-28
+#    - doc-27
 
 install:
-  - echo $ANDROID_HOME # We assume this is correctly set when setting path
-  - sdkmanager --list || true # Look at the packages
-  - echo yes | sdkmanager "tools" # Ensure tools is updated
-#  - echo yes | sdkmanager "emulator" # Ensure emulator is present
-#
-#  # Install emulator
-#  - export EMULATOR="system-images;android-$EMULATOR_API;$EMULATOR_TAG;$EMULATOR_ABI"
-#  - echo yes | sdkmanager "platforms;android-$EMULATOR_API" # Install sdk
-#  - echo yes | sdkmanager "$EMULATOR" # Install system image
-#  - sdkmanager --list || true # Check everything is updated
-#
-#  # Create and start emulator
-#  - echo no | avdmanager create avd -n test -k "$EMULATOR" -f # Create emulator
-#  - which emulator # ensure we are using the right emulator (home/emulator/)
-#  - emulator -avd test -no-window -camera-back emulated -camera-front emulated -memory 2048 -writable-system & # Launch
-#  - adb wait-for-device # Wait for adb process
-#  - adb remount # Mount as writable
+  # Download SDK tools
+  - echo y | sdkmanager "platform-tools" >/dev/null
+  - echo y | sdkmanager "tools" >/dev/null # A second time per Travis docs, gets latest versions
+  - echo y | sdkmanager "build-tools;28.0.3" >/dev/null # Implicit gradle dependency - gradle drives changes
+  - echo y | sdkmanager "platforms;android-$API" >/dev/null # We need the API of the emulator we will run
+  - echo y | sdkmanager "platforms;android-28" >/dev/null # We need the API of the current compileSdkVersion from gradle.properties
+  - echo y | sdkmanager "emulator" >/dev/null
+  - echo y | sdkmanager "extras;android;m2repository" >/dev/null
+  - echo y | sdkmanager "system-images;android-$API;$EMU_FLAVOR;$ABI" >/dev/null # install our emulator
 
-#before_script:
-#  - android-wait-for-emulator # Wait for emulator ready to interact
-#  - adb shell settings put global window_animation_scale 0 & # Disable animations
-#  - adb shell settings put global transition_animation_scale 0 & # Disable animations
-#  - adb shell settings put global animator_duration_scale 0 & # Disable animations
-#
-#  # Would be great to use -v color to adb logcat but looks not supported on travis.
-#  - sleep 20 # Sleep 20 seconds just in case
-#  - adb shell input keyevent 82 & # Dispatch unlock event
-#  - adb logcat --help # See if this version supports color
-#  - adb logcat -c # Clear logcat
+  # Create an Android emulator
+  - echo no | avdmanager create avd --force -n test -k "system-images;android-$API;$EMU_FLAVOR;$ABI" -c 10M
+  - |
+    EMU_PARAMS="-verbose -no-snapshot -no-window -camera-back none -camera-front none -selinux permissive -qemu -m 2048"
+    EMU_COMMAND="emulator"
+    if [[ $ABI =~ "x86" ]]; then
+      EMU_COMMAND="emulator-headless"
+    fi
+    # This double "sudo" monstrosity is used to have Travis execute the
+    # emulator with its new group permissions and help preserve the rule
+    # of least privilege.
+    sudo -E sudo -u $USER -E bash -c "${ANDROID_HOME}/emulator/${EMU_COMMAND} -avd test ${AUDIO} ${EMU_PARAMS} &"
+  # Wait for emulator to be ready
+  - ./tools/android-wait-for-emulator.sh
+  - adb shell input keyevent 82 &
+
+  # Switch back to our target JDK version to build and run tests
+  - JDK="${TARGET_JDK}"
+  - source ~/.install-jdk-travis.sh
 
 script:
   - set -o pipefail
   - ./gradlew clean build :DBPrefs:javadocJar :DBPrefs-lint:test :DBPrefs:assembleDebugAndroidTest :DBPrefs:check --profile --stacktrace --continue 2>&1 | tee build.log
   - set +o pipefail
-#  - ./gradlew connectedUseOldLibReleaseAndroidTest
+  - ./gradlew connectedUseOldLibDebugAndroidTest
 
 before_cache:
   - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
-  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+  - curl "${GRAVIS}.clean_gradle_cache.sh" --output ~/.clean_gradle_cache.sh
+  - bash ~/.clean_gradle_cache.sh
 
 cache:
   directories:
