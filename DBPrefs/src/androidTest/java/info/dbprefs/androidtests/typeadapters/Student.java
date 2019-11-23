@@ -1,5 +1,7 @@
 package info.dbprefs.androidtests.typeadapters;
 
+import androidx.annotation.NonNull;
+
 import java.util.Objects;
 
 //taken from https://www.tutorialspoint.com/gson/gson_custom_adapters.htm
@@ -23,6 +25,7 @@ public class Student {
         this.name = name;
     }
 
+    @NonNull
     public String toString() {
         return "Student[ name = " + name + ", roll no: " + rollNo + "]";
     }

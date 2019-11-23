@@ -1,3 +1,5 @@
+@file:Suppress("UNUSED_VALUE")
+
 package info.dbprefs.androidtests.typeadapters
 
 import com.google.gson.TypeAdapter
