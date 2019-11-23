@@ -122,7 +122,7 @@ after_failure:
   #- lynx --dump com.android.builder.testing.ConnectedDevice.html > myConnectedDevice.log
   #- lynx --dump com.android.builder.testing.html > myTesting.log
   #- find $MY_LOG_DIR -name "*.html" | while read -r file ; do echo $file; echo "-------"; cat $file; done
-  - pwd && cd "${MY_LOG_DIR:-.}"
+  - pwd && cd "${MY_LOG_DIR}"
   - pwd && ls -al
   #- for file in *.html; do echo "$file"; echo "====================="; cat "$file"; done || true
 #  - pwd && cd "${MY_LOG_DIR_RESULT:-.}" && pwd && ls -al
