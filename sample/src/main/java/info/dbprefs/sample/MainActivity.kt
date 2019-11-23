@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.reflect.TypeToken
@@ -22,15 +21,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val sharedPreferences = getSharedPreferences("com.example.app", Context.MODE_PRIVATE)
-        val l = sharedPreferences.getLong("xxx", Date().time)
+        val longValue = sharedPreferences.getLong("xxx", Date().time)
         sharedPreferences.edit().putLong("xxx", 11).apply()
 
         val btn = Button(this)
-        btn.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(v: View) {
-                Log.d("x", "y")
-            }
-        })
+        btn.setOnClickListener { Log.d("x", "y") }
 
         buttonRead.setOnClickListener {
             run {

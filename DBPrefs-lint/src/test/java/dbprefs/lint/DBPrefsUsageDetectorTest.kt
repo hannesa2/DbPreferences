@@ -6,18 +6,6 @@ import com.android.tools.lint.checks.infrastructure.TestLintTask.lint
 import org.junit.Test
 
 class DBPrefsUsageDetectorTest {
-    private val PREFS_STUB = java("""
-      |package timber.log;
-      |public class Timber {
-      |  public static void d(String s, Object... args) {}
-      |  public static void d(Throwable t, String s, Object... args) {}
-      |  public static Tree tag(String tag) { return new Tree(); }
-      |  public static class Tree {
-      |    public void d(String s, Object... args) {}
-      |    public void d(Throwable t, String s, Object... args) {}
-      |  }
-      |  private static final Tree TREE_OF_SOULS = new Tree();
-      |}""".trimMargin())
 
     @Test
     fun usingSharedPreferencesJava() {
