@@ -45,7 +45,7 @@ class DBPrefsUsageDetector : Detector(), Detector.UastScanner {
 
         val ISSUE_SHARED_PREFS = Issue.create("SharedPrefsUsage", "SharedPreferences are used, use DBPrefs instead",
                 "Since SharedPreferences are used in the project, it is likely that calls to Preferences should instead be going to DBPrefs.",
-                Category.USABILITY, 5, Severity.INFORMATIONAL,
+                Category.USABILITY, 5, Severity.WARNING,
                 Implementation(DBPrefsUsageDetector::class.java, Scope.JAVA_FILE_SCOPE))
     }
 }

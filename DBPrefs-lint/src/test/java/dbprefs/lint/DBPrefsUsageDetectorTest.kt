@@ -23,10 +23,10 @@ class DBPrefsUsageDetectorTest {
         ).issues(DBPrefsUsageDetector.ISSUE_SHARED_PREFS)
                 .run()
                 .expect("""
-                |src/foo/Example.java:6: Information: Using 'SharedPreferences' instead of 'DBPrefs' [SharedPrefsUsage]
+                |src/foo/Example.java:6: Warning: Using 'SharedPreferences' instead of 'DBPrefs' [SharedPrefsUsage]
                 |    SharedPreferences sharedPreferences = getSharedPreferences("java", 0);
                 |                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                |0 errors, 0 warnings
+                |0 errors, 1 warnings
                 |""".trimMargin())
                 .expectFixDiffs("""
                 |Fix for src/foo/Example.java line 5: Replace with DBPrefs():
@@ -53,10 +53,10 @@ class DBPrefsUsageDetectorTest {
                 .issues(DBPrefsUsageDetector.ISSUE_SHARED_PREFS)
                 .run()
                 .expect("""
-                |src/foo/Example.kt:6: Information: Using 'SharedPreferences' instead of 'DBPrefs' [SharedPrefsUsage]
+                |src/foo/Example.kt:6: Warning: Using 'SharedPreferences' instead of 'DBPrefs' [SharedPrefsUsage]
                 |    val sharedPreferences = getSharedPreferences("kotlin", Context.MODE_PRIVATE)
                 |                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                |0 errors, 0 warnings
+                |0 errors, 1 warnings
                 |""".trimMargin())
                 .expectFixDiffs("""
                 |Fix for src/foo/Example.kt line 5: Replace with DBPrefs():
