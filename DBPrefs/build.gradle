@@ -55,7 +55,7 @@ dependencies {
 
     implementation "io.reactivex.rxjava2:rxandroid:2.1.1"
 
-    lintChecks project(':DBPrefs-lint')
+    lintPublish project(':DBPrefs-lint')
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation "androidx.room:room-testing:$room"
