@@ -97,7 +97,7 @@ install:
 
 script:
   - set -o pipefail
-  - ./gradlew clean build :DBPrefs:javadocJar :DBPrefs-lint:test :DBPrefs:assembleDebugAndroidTest :DBPrefs:check --profile --stacktrace --continue 2>&1 | tee build.log
+  - ./gradlew clean lint build :DBPrefs:javadocJar :DBPrefs-lint:test :DBPrefs:assembleDebugAndroidTest :DBPrefs:check --profile --stacktrace --continue 2>&1 | tee build.log
   - set +o pipefail
   - ./gradlew connectedUseOldLibDebugAndroidTest
 
