@@ -30,13 +30,6 @@ allprojects {
             url "https://s3.amazonaws.com/repo.commonsware.com"
         }
     }
-
-    // disable lint
-    tasks.whenTaskAdded { task ->
-        if (task.name == 'lint') {
-            task.enabled = false
-        }
-    }
 }
 
 ext {
