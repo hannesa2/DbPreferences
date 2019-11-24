@@ -45,5 +45,5 @@ ext {
     defaultTargetSdkVersion = 29
     androidTools = '26.5.0'
     room = "2.2.1"
-    roomruntime = "2.2.1"
+    roomruntime = "2.2.2"
 }
