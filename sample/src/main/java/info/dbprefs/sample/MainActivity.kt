@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val sharedPreferences = getSharedPreferences("com.example.app", Context.MODE_PRIVATE)
+        @Suppress("UNUSED_VARIABLE")
         val longValue = sharedPreferences.getLong("xxx", Date().time)
         sharedPreferences.edit().putLong("xxx", 11).apply()
 

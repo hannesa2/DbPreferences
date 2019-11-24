@@ -107,19 +107,13 @@ class DbPreferences {
 
     fun getSerialized(key: ConfigKey): String? {
         val value = appDatabase.preferenceDao().getValue(key.keyname())
-        return if (value == null)
-            return null
-        else
-            return value.value
+        return value.value
     }
 
     @Deprecated(message = "Try to avoid using a String")
     fun getSerialized(key: String): String? {
         val value = appDatabase.preferenceDao().getValue(key)
-        return if (value == null)
-            return null
-        else
-            return value.value
+        return value.value
     }
 
     fun <T> getFlowableValue(key: ConfigKey, type: Type): Flowable<T>? {
