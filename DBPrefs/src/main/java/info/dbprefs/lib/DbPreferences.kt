@@ -36,6 +36,7 @@ class DbPreferences {
         return putSerialized(key, mParse.toJson(value))
     }
 
+    @Deprecated(message = "Try to avoid using a String")
     fun <T> put(key: String, value: T): Boolean {
         return putSerialized(key, mParse.toJson(value))
     }
@@ -106,14 +107,22 @@ class DbPreferences {
     fun isOpen() = appDatabase.isOpen
 
     fun getSerialized(key: ConfigKey): String? {
-        val value = appDatabase.preferenceDao().getValue(key.keyname())
-        return value.value
+        val record = appDatabase.preferenceDao().getValue(key.keyname())
+        @Suppress("SENSELESS_COMPARISON", "IfThenToSafeAccess")
+        return if (record == null)
+            null
+        else
+            record.value
     }
 
     @Deprecated(message = "Try to avoid using a String")
     fun getSerialized(key: String): String? {
-        val value = appDatabase.preferenceDao().getValue(key)
-        return value.value
+        val record = appDatabase.preferenceDao().getValue(key)
+        @Suppress("SENSELESS_COMPARISON", "IfThenToSafeAccess")
+        return if (record == null)
+            null
+        else
+            record.value
     }
 
     fun <T> getFlowableValue(key: ConfigKey, type: Type): Flowable<T>? {
