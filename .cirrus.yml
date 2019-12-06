@@ -179,7 +179,7 @@ task:
     - ${ANDROID_HOME}/emulator/${EMU_COMMAND} ${EMU_PARAMS}
   wait_for_emulator_script:
     - ./script/android-wait-for-emulator.sh
-  doctor_script: flutter doctor -v
+#  doctor_script: flutter doctor -v
   test_script:
     # - export PATH="$PATH":"$HOME/.pub-cache/bin"
     - ./gradlew clean lint build :DBPrefs:javadocJar :DBPrefs:assembleDebugAndroidTest :DBPrefs:check --profile --stacktrace --continue 2>&1 | tee build.log
