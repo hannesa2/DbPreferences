@@ -14,8 +14,8 @@ addons:
 
 env:
   global:
-    - ABI=x86_64
-    - API=29
+    - ABI=x86
+    - API=28
     - ADB_INSTALL_TIMEOUT=8
     - ANDROID_HOME=${HOME}/android-sdk
     - ANDROID_TOOLS_URL="https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip"
