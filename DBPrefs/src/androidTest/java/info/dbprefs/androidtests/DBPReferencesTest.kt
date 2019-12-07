@@ -9,11 +9,8 @@ import info.dbprefs.androidtests.data.TestConfigKeys
 import info.dbprefs.androidtests.typeadapters.Student
 import info.dbprefs.androidtests.typeadapters.StudentAdapter
 import info.dbprefs.lib.DbPreferences
-import org.junit.After
-import org.junit.Assert
+import org.junit.*
 import org.junit.Assert.assertEquals
-import org.junit.Before
-import org.junit.Test
 import org.junit.runner.RunWith
 
 
@@ -189,6 +186,7 @@ class DBPReferencesTest {
 
     @Suppress("UNUSED_VARIABLE")
     @Test
+    @Ignore
     fun testSpeed() {
 
         var start = System.currentTimeMillis()
