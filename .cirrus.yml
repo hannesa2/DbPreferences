@@ -44,51 +44,51 @@ task:
       env:
         matrix:
           - API: 29
-#          - API: 28
-#          - API: 27
-#          - API: 26
-#          - API: 25
+          - API: 28
+          - API: 27
+          - API: 26
+          - API: 25
         matrix:
           - ABI: x86_64
-#          - ABI: x86
+          - ABI: x86
         matrix:
-#          - GOO: default
-#          - GOO: google_apis
+          - GOO: default
+          - GOO: google_apis
           - GOO: google_apis_playstore
-#    - name: accel, no playstore, 24-21
-#      container:
-#        image: cirrusci/flutter:latest
-#        cpu: 4
-#        memory: 10G
-#        kvm: true
-#      env:
-#        matrix:
-#          - API: 24
-#          - API: 23
-#          - API: 22
-#          - API: 21
-#        matrix:
-#          - ABI: x86_64
-#          - ABI: x86
-#        matrix:
-#          - GOO: default
-#          - GOO: google_apis
-#    - name: accel, x86, 19-16
-#      container:
-#        image: cirrusci/flutter:latest
-#        cpu: 4
-#        memory: 10G
-#        kvm: true
-#      env:
-#        matrix:
-#          - API: 19
-#          - API: 18
-#          - API: 17
-#          - API: 16
-#        ABI: x86
-#        matrix:
-#          - GOO: default
-#          - GOO: google_apis
+    - name: accel, no playstore, 24-21
+      container:
+        image: cirrusci/flutter:latest
+        cpu: 4
+        memory: 10G
+        kvm: true
+      env:
+        matrix:
+          - API: 24
+          - API: 23
+          - API: 22
+          - API: 21
+        matrix:
+          - ABI: x86_64
+          - ABI: x86
+        matrix:
+          - GOO: default
+          - GOO: google_apis
+    - name: accel, x86, 19-16
+      container:
+        image: cirrusci/flutter:latest
+        cpu: 4
+        memory: 10G
+        kvm: true
+      env:
+        matrix:
+          - API: 19
+          - API: 18
+          - API: 17
+          - API: 16
+        ABI: x86
+        matrix:
+          - GOO: default
+          - GOO: google_apis
 #    - name: no accel, ARM, 25-24
 #      container:
 #        image: cirrusci/flutter:latest
