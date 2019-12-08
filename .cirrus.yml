@@ -42,19 +42,9 @@ task:
         memory: 10G
         kvm: true
       env:
-        matrix:
-          - API: 29
-#          - API: 28
-#          - API: 27
-#          - API: 26
-#          - API: 25
-        matrix:
-          - ABI: x86_64
-#          - ABI: x86
-        matrix:
-#          - GOO: default
-#          - GOO: google_apis
-          - GOO: google_apis_playstore
+        - API: 28
+        - ABI: x86_64
+        - GOO: google_apis_playstore
 #    - name: accel, no playstore, 24-21
 #      container:
 #        image: cirrusci/flutter:latest
