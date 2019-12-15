@@ -35,7 +35,7 @@ timeout_in: 25m
 # (see "sdkmanager --list --verbose| grep ^system-images" for full list)
 task:
   matrix:
-    - name: accel, playstore, 29-25
+    - name: x86_64, playstore, api 28
       container:
         image: cirrusci/flutter:latest
         cpu: 4
