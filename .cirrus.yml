@@ -29,7 +29,7 @@
 # "https://en.wikipedia.org/wiki/Android_(operating_system)#Platform_information"
 # Note: Flutter supports down to API 16
 
-timeout_in: 15m
+timeout_in: 25m
 
 # matrix of APIxABIxGOO
 # (see "sdkmanager --list --verbose| grep ^system-images" for full list)
