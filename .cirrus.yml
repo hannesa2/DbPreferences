@@ -34,37 +34,35 @@ timeout_in: 25m
 # matrix of APIxABIxGOO
 # (see "sdkmanager --list --verbose| grep ^system-images" for full list)
 task:
-  matrix:
-    - name: x86_64, playstore, api 28
-      container:
-        image: cirrusci/flutter:latest
-        cpu: 4
-        memory: 10G
-        kvm: true
-      env:
-        - API: 28
-        - ABI: x86_64
-        - GOO: google_apis_playstore
+  container:
+    image: cirrusci/flutter:latest
+    cpu: 4
+    memory: 10G
+    kvm: true
+  env:
+    - API: 28
+    - ABI: x86_64
+    - GOO: google_apis_playstore
 
   # remove unsupported jobs from job matrix
-#  only_if: ($API != "27" || $ABI != "x86_64" || $GOO != "google_apis_playstore") && ($API != "27" || $ABI != "x86_64" || $GOO != "google_apis") && ($API != "26" || $ABI != "x86_64" || $GOO != "google_apis_playstore") && ($API != "25" || $ABI != "x86_64" || $GOO != "google_apis_playstore") && ($API != "24" || $ABI != "x86_64" || $GOO != "google_apis_playstore") && ($API != "24" || $ABI != "x86" || $GOO != "google_apis_playstore") && ($API != "25" || $ABI != "armeabi-v7a" || $GOO != "default") && ($API != "25" || $ABI != "arm64-v8a" || $GOO != "default")
-#  # jobs that are flaky or fail consistently
-#  allow_failures: ($API == "29" && $ABI == "x86_64" && $GOO == "google_apis_playstore") || ($API == "29" && $ABI == "x86" && $GOO == "google_apis_playstore") || ($API == "29" && $ABI == "x86" && $GOO == "google_apis") || ($API == "29" && $ABI == "x86_64" && $GOO == "google_apis") || ($API == "29" && $ABI == "x86_64" && $GOO == "default") || ($API == "29" && $ABI == "x86" && $GOO == "default") || ($API == "28" && $ABI == "x86_64" && $GOO == "google_apis_playstore") || ($API == "28" && $ABI == "x86" && $GOO == "google_apis_playstore") || ($API == "28" && $ABI == "x86" && $GOO == "google_apis") || ($API == "26" && $ABI == "x86" && $GOO == "default") || ($API == "25" && $ABI == "x86" && $GOO == "google_apis_playstore") || ($API == "25" && $ABI == "armeabi-v7a" && $GOO == "google_apis") || ($API == "25" && $ABI == "arm64-v8a" && $GOO == "google_apis") || ($API == "24" && $ABI == "x86" && $GOO == "google_apis") || ($API == "24" && $ABI == "armeabi-v7a" && $GOO == "google_apis") || ($API == "24" && $ABI == "arm64-v8a" && $GOO == "google_apis") || ($API == "24" && $ABI == "armeabi-v7a" && $GOO == "default") || ($API == "24" && $ABI == "arm64-v8a" && $GOO == "default") || ($API == "23" && $ABI == "armeabi-v7a" && $GOO == "google_apis") || ($API == "23" && $ABI == "armeabi-v7a" && $GOO == "default") || ($API == "22" && $ABI == "x86_64" && $GOO == "default") || ($API == "22" && $ABI == "armeabi-v7a" && $GOO == "google_apis") || ($API == "21" && $ABI == "armeabi-v7a" && $GOO == "google_apis") || ($API == "19" && $ABI == "armeabi-v7a" && $GOO == "google_apis") || ($API == "19" && $ABI == "armeabi-v7a" && $GOO == "default") || ($API == "18" && $ABI == "x86" && $GOO == "google_apis") || ($API == "18" && $ABI == "armeabi-v7a" && $GOO == "google_apis") || ($API == "17" && $ABI == "x86" && $GOO == "google_apis") || ($API == "17" && $ABI == "x86" && $GOO == "default") || ($API == "16" && $ABI == "x86" && $GOO == "google_apis") || ($API == "16" && $ABI == "x86" && $GOO == "default") || ($API == "16" && $ABI == "armeabi-v7a" && $GOO == "google_apis") || ($API == "16" && $ABI == "armeabi-v7a" && $GOO == "default")
+  #  only_if: ($API != "27" || $ABI != "x86_64" || $GOO != "google_apis_playstore") && ($API != "27" || $ABI != "x86_64" || $GOO != "google_apis") && ($API != "26" || $ABI != "x86_64" || $GOO != "google_apis_playstore") && ($API != "25" || $ABI != "x86_64" || $GOO != "google_apis_playstore") && ($API != "24" || $ABI != "x86_64" || $GOO != "google_apis_playstore") && ($API != "24" || $ABI != "x86" || $GOO != "google_apis_playstore") && ($API != "25" || $ABI != "armeabi-v7a" || $GOO != "default") && ($API != "25" || $ABI != "arm64-v8a" || $GOO != "default")
+  #  # jobs that are flaky or fail consistently
+  #  allow_failures: ($API == "29" && $ABI == "x86_64" && $GOO == "google_apis_playstore") || ($API == "29" && $ABI == "x86" && $GOO == "google_apis_playstore") || ($API == "29" && $ABI == "x86" && $GOO == "google_apis") || ($API == "29" && $ABI == "x86_64" && $GOO == "google_apis") || ($API == "29" && $ABI == "x86_64" && $GOO == "default") || ($API == "29" && $ABI == "x86" && $GOO == "default") || ($API == "28" && $ABI == "x86_64" && $GOO == "google_apis_playstore") || ($API == "28" && $ABI == "x86" && $GOO == "google_apis_playstore") || ($API == "28" && $ABI == "x86" && $GOO == "google_apis") || ($API == "26" && $ABI == "x86" && $GOO == "default") || ($API == "25" && $ABI == "x86" && $GOO == "google_apis_playstore") || ($API == "25" && $ABI == "armeabi-v7a" && $GOO == "google_apis") || ($API == "25" && $ABI == "arm64-v8a" && $GOO == "google_apis") || ($API == "24" && $ABI == "x86" && $GOO == "google_apis") || ($API == "24" && $ABI == "armeabi-v7a" && $GOO == "google_apis") || ($API == "24" && $ABI == "arm64-v8a" && $GOO == "google_apis") || ($API == "24" && $ABI == "armeabi-v7a" && $GOO == "default") || ($API == "24" && $ABI == "arm64-v8a" && $GOO == "default") || ($API == "23" && $ABI == "armeabi-v7a" && $GOO == "google_apis") || ($API == "23" && $ABI == "armeabi-v7a" && $GOO == "default") || ($API == "22" && $ABI == "x86_64" && $GOO == "default") || ($API == "22" && $ABI == "armeabi-v7a" && $GOO == "google_apis") || ($API == "21" && $ABI == "armeabi-v7a" && $GOO == "google_apis") || ($API == "19" && $ABI == "armeabi-v7a" && $GOO == "google_apis") || ($API == "19" && $ABI == "armeabi-v7a" && $GOO == "default") || ($API == "18" && $ABI == "x86" && $GOO == "google_apis") || ($API == "18" && $ABI == "armeabi-v7a" && $GOO == "google_apis") || ($API == "17" && $ABI == "x86" && $GOO == "google_apis") || ($API == "17" && $ABI == "x86" && $GOO == "default") || ($API == "16" && $ABI == "x86" && $GOO == "google_apis") || ($API == "16" && $ABI == "x86" && $GOO == "default") || ($API == "16" && $ABI == "armeabi-v7a" && $GOO == "google_apis") || ($API == "16" && $ABI == "armeabi-v7a" && $GOO == "default")
   fix_kvm_script:
     - |
       if [[ $ABI =~ "x86" ]]; then
         sudo chown cirrus:cirrus /dev/kvm
       fi
-#  set_timezone_script:
+    #  set_timezone_script:
     # set timezone to avoid emulator warning
-#    - date
-#    - echo "US/Pacific" | sudo tee /etc/timezone
-#    - sudo dpkg-reconfigure --frontend noninteractive tzdata
-#    - export DEBIAN_FRONTEND=noninteractive
-#    - sudo ln -fs /usr/share/zoneinfo/America/New_York /etc/localtime
-#    - sudo apt-get install -y tzdata
-#    - sudo dpkg-reconfigure --frontend noninteractive tzdata
-#    - date
+  #    - date
+  #    - echo "US/Pacific" | sudo tee /etc/timezone
+  #    - sudo dpkg-reconfigure --frontend noninteractive tzdata
+  #    - export DEBIAN_FRONTEND=noninteractive
+  #    - sudo ln -fs /usr/share/zoneinfo/America/New_York /etc/localtime
+  #    - sudo apt-get install -y tzdata
+  #    - sudo dpkg-reconfigure --frontend noninteractive tzdata
+  #    - date
 
   install_emulator_script:
     - sdkmanager "system-images;android-$API;$GOO;$ABI" > /dev/null
@@ -103,7 +101,7 @@ task:
     - ${ANDROID_HOME}/emulator/${EMU_COMMAND} ${EMU_PARAMS}
   wait_for_emulator_script:
     - ./script/android-wait-for-emulator.sh
-#  doctor_script: flutter doctor -v
+  #  doctor_script: flutter doctor -v
   test_script:
     # - export PATH="$PATH":"$HOME/.pub-cache/bin"
     - ./gradlew clean lint build :DBPrefs:javadocJar :DBPrefs:assembleDebugAndroidTest :DBPrefs:check --profile --stacktrace --continue 2>&1 | tee build.log
