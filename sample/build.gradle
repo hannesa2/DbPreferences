@@ -92,7 +92,7 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta3'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta4'
     implementation 'androidx.multidex:multidex:2.0.1'    // minsdk <= 20
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'com.google.code.gson:gson:2.8.6'
@@ -101,7 +101,7 @@ dependencies {
     //noinspection GradleDependency
     useOldLibImplementation "com.github.hannesa2:DbPreferences:5.3.2"
 
-    androidTestImplementation 'junit:junit:4.12'
+    androidTestImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test:rules:1.2.0'
     //  UI testing with Espresso
