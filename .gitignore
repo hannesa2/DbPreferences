@@ -2,9 +2,8 @@
 *.iml
 .gradle
 
-!.idea/
 .idea/*
-!codeStyleSettings.xml
+!.idea/codeStyles/
 
 /local.properties
 .DS_Store
