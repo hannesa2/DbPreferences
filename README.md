@@ -64,7 +64,7 @@ var myList: ArrayList<TestClass>? = DbPreferences().get(MyConfigKeys.KEY_LIST, l
 That's it !
 
 ## Download 
-Repository available on https://jitpack.io
+Repository available on https://jitpack.io/#hannesa2/DBpreferences
 
 ```Gradle
 allprojects {
@@ -76,7 +76,7 @@ allprojects {
 ```
 ```Gradle
 dependencies {
-    implementation 'com.github.hannesa2:DbPreferences:5.3.0' // AndroidX
+    implementation 'com.github.hannesa2:DbPreferences:$latestVersion'
 }
 
 ```
@@ -89,7 +89,7 @@ On a Samsung S4 mini
 
 ## License 
 ```
-Copyright 2018 Hannes Achleitner
+Copyright 2018 DBPreferences Autors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
