@@ -1,7 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'digital.wup.android-maven-publish'
 apply plugin: 'org.jetbrains.dokka-android'
 
 android {
@@ -28,17 +27,6 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-        }
-    }
-}
-
-publishing {
-    publications {
-        mavenAar(MavenPublication) {
-            groupId = 'com.github.hannesa2'
-            artifactId = 'DbPreferences'
-            version = getVersionName()
-            from components.android
         }
     }
 }
