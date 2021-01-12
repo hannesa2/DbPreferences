@@ -33,7 +33,6 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation 'com.google.code.gson:gson:2.8.6'
 
-    //noinspection GradleDependency
     implementation "com.github.hannesa2:cwac-saferoom:1.2.1.1"
     implementation "androidx.room:room-runtime:$room"
     kapt "androidx.room:room-compiler:2.2.6"

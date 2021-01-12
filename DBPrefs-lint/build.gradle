@@ -4,6 +4,8 @@ apply plugin: 'kotlin'
 dependencies {
     compileOnly "com.android.tools.lint:lint-api:$androidTools"
     compileOnly "com.android.tools.lint:lint-checks:$androidTools"
+    compileOnly "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
     testImplementation "com.android.tools.lint:lint:$androidTools"
     testImplementation "com.android.tools.lint:lint-tests:$androidTools"
 }
