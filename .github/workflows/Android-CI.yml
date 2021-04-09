@@ -38,7 +38,7 @@ jobs:
         if: ${{ always() }}
         with:
           name: DBPrefs-Espresso-report
-          path: applications/**/build/reports/androidTests/connected/
+          path: ./**/build/reports/androidTests/connected/
       - name: Save logcat output
         uses: actions/upload-artifact@v2.2.2
         if: failure()
