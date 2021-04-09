@@ -6,6 +6,7 @@ dependencies {
     compileOnly "com.android.tools.lint:lint-checks:$androidTools"
     testImplementation "com.android.tools.lint:lint:$androidTools"
     testImplementation "com.android.tools.lint:lint-tests:$androidTools"
+    compileOnly "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }
 
 jar {
