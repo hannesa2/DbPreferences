@@ -1,9 +1,6 @@
 apply plugin: 'java-library'
 apply plugin: 'kotlin'
 
-targetCompatibility = JavaVersion.VERSION_1_7
-sourceCompatibility = JavaVersion.VERSION_1_7
-
 dependencies {
     compileOnly "com.android.tools.lint:lint-api:$androidTools"
     compileOnly "com.android.tools.lint:lint-checks:$androidTools"
