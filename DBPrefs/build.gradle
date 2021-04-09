@@ -16,8 +16,6 @@ android {
         buildConfigField "String", "GIT_COMMIT_URL", "\"" + getGitCommitUrl() + "\""
         buildConfigField "String", "GIT_REPO_URL", "\"" + getGitRepoUrl() + "\""
         buildConfigField "String", "GIT_TAG_URL", "\"" + getGitRepoUrl() + "/tags" + "\""
-        buildConfigField "String", "TRAVIS_BUILD_ID", "\"" + getTravisBuildId() + "\""
-        buildConfigField "String", "TRAVIS_BUILD_URL", "\"" + getTravisBuildUrl() + "\""
         buildConfigField "String", "JITPACK_BUILD_URL", "\"" + getJitpackBuildUrl() + "\""
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -124,27 +122,6 @@ static def getGitCommitUrl() {
 static def getGitRepoUrl() {
     def process = "git remote get-url origin --push".execute()
     return process.text.toString().replace(".git", "").trim()
-}
-
-static def getTravisBuildId() {
-    return System.getenv("TRAVIS_BUILD_ID")
-}
-
-static def getTravisBuildUrl() {
-    if (System.getenv("CI_SERVER")) {
-        return getTravisBuildId()
-    } else {
-        println "buildID:" + "https://travis-ci.org/" + System.getenv("TRAVIS_REPO_SLUG") + "/builds/" + getTravisBuildId()
-        println "TRAVIS_BUILD_DIR:" + System.getenv("TRAVIS_BUILD_DIR")
-        println "TRAVIS_BUILD_ID:" + System.getenv("TRAVIS_BUILD_ID")
-        println "TRAVIS_BUILD_NUMBER:" + System.getenv("TRAVIS_BUILD_NUMBER")
-        println "TRAVIS_COMMIT:" + System.getenv("TRAVIS_COMMIT")
-        println "TRAVIS_COMMIT_MESSAGE:" + System.getenv("TRAVIS_COMMIT_MESSAGE")
-        println "TRAVIS_COMMIT_RANGE:" + System.getenv("TRAVIS_COMMIT_RANGE")
-        println "TRAVIS_JOB_ID:" + System.getenv("TRAVIS_JOB_ID")
-        println "TRAVIS_JOB_NUMBER:" + System.getenv("TRAVIS_JOB_NUMBER")
-        return "https://travis-ci.org/" + System.getenv("TRAVIS_REPO_SLUG") + "/builds/" + getTravisBuildId()
-    }
 }
 
 static def getJitpackBuildUrl() {
