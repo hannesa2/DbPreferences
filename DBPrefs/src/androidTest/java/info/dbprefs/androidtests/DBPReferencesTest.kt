@@ -28,7 +28,7 @@ class DBPReferencesTest {
 
     @After
     fun tearDown() {
-        dbPrefs.close()
+        //dbPrefs.close()
     }
 
     @Test
