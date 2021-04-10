@@ -186,12 +186,12 @@ class DBPReferencesTest {
 
     @Suppress("UNUSED_VARIABLE")
     @Test
-    @Ignore
+    @Ignore("It's not stable")
     fun testSpeed() {
 
         var start = System.currentTimeMillis()
         for (item: Int in 1..2000) {
-            dbPrefs.put(TestConfigKeys.KEY_STRING, "value" + item)
+            dbPrefs.put(TestConfigKeys.KEY_STRING, "value$item")
         }
         Assert.assertTrue((System.currentTimeMillis() - start) < 20000)  // ARM needs more time, x86 works with 9000
 
