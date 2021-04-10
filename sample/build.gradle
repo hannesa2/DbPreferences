@@ -96,7 +96,7 @@ dependencies {
     implementation 'androidx.multidex:multidex:2.0.1'    // minsdk <= 20
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.code.gson:gson:2.8.6'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     useRecentCodeApi project(':DBPrefs')
     //noinspection GradleDependency
     useOldLibImplementation "com.github.hannesa2:DbPreferences:5.3.2"
