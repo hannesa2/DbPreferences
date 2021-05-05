@@ -28,6 +28,6 @@ ext {
     defaultCompileSdkVersion = 29
     defaultMinSdkVersion = 16
     defaultTargetSdkVersion = 29
-    androidTools = '27.1.3'
+    androidTools = '27.2.0'
     room = "2.2.6"
 }
