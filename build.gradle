@@ -17,10 +17,6 @@ allprojects {
         jcenter()
         mavenCentral()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
-        maven { url "https://jitpack.io" } // secure room
-        maven { // only needed for flavor "useOldLib" (preparation of update test)
-            url "https://s3.amazonaws.com/repo.commonsware.com"
-        }
     }
 }
 
