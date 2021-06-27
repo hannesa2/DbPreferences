@@ -7,7 +7,6 @@ import android.content.Context
 import android.provider.Settings
 import android.util.Log
 import androidx.room.Room
-import com.commonsware.cwac.saferoom.SafeHelperFactory
 import com.google.gson.Gson
 import info.dbprefs.lib.room.PreferencesDatabase
 import info.dbprefs.lib.room.entity.PreferenceRoom
@@ -127,19 +126,19 @@ class DbPreferences {
 
     fun <T> getFlowableValue(key: ConfigKey, type: Type): Flowable<T>? {
         return appDatabase
-                .preferenceDao()
-                .getValueFlowable(key.keyname())
-                .map {
-                    val returningClass: T?
-                    val decodedText = it.value
-                    try {
-                        returningClass = mParse.fromJson<T>(decodedText, type)
-                        Flowable.just(returningClass)
-                    } catch (e: Exception) {
-                        Log.e(e.message, "Exception for class $type decoded Text: $decodedText")
-                    }
-                    null
+            .preferenceDao()
+            .getValueFlowable(key.keyname())
+            .map {
+                val returningClass: T?
+                val decodedText = it.value
+                try {
+                    returningClass = mParse.fromJson<T>(decodedText, type)
+                    Flowable.just(returningClass)
+                } catch (e: Exception) {
+                    Log.e(e.message, "Exception for class $type decoded Text: $decodedText")
                 }
+                null
+            }
     }
 
     fun <T> get(key: ConfigKey, type: Type, defaultValue: T): T {
@@ -203,16 +202,16 @@ class DbPreferences {
         @SuppressLint("CheckResult")
         @JvmOverloads
         fun init(
-                context: Context,
-                @SuppressLint("HardwareIds")
-                password: String = Settings.Secure.getString(context.applicationContext.contentResolver, Settings.Secure.ANDROID_ID),
-                dbName: String = PreferencesDatabase.ROOM_DATABASE_NAME,
-                initOpen: Boolean = true) {
+            context: Context,
+            @SuppressLint("HardwareIds")
+            password: String = Settings.Secure.getString(context.applicationContext.contentResolver, Settings.Secure.ANDROID_ID),
+            dbName: String = PreferencesDatabase.ROOM_DATABASE_NAME,
+            initOpen: Boolean = true
+        ) {
             // Room
-            val factory = SafeHelperFactory(password.toCharArray())
             appDatabase = Room.databaseBuilder(context, PreferencesDatabase::class.java, dbName)
-                    .openHelperFactory(factory).allowMainThreadQueries()
-                    .build()
+                .allowMainThreadQueries()
+                .build()
 
             val start = System.currentTimeMillis()
 
@@ -221,8 +220,8 @@ class DbPreferences {
                 Completable.fromAction {
                     appDatabase.preferenceDao().getValueFlowable("reduceFirstAccessTime")
                 }.subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe { Log.d("time init", (System.currentTimeMillis() - start).toString() + " ms") }
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe { Log.d("time init", (System.currentTimeMillis() - start).toString() + " ms") }
             }
         }
 
