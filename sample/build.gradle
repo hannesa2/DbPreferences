@@ -38,11 +38,6 @@ android {
         }
     }
 
-    compileOptions {
-        targetCompatibility 1.8
-        sourceCompatibility 1.8
-    }
-
     lintOptions {
         // Turns off checks for the issue IDs you specify.
         //disable 'TypographyFractions','TypographyQuotes'
