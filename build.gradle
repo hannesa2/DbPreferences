@@ -21,7 +21,7 @@ allprojects {
 
 ext {
     defaultCompileSdkVersion = 29
-    defaultMinSdkVersion = 16
+    defaultMinSdkVersion = 24
     defaultTargetSdkVersion = 29
     androidTools = '27.2.1'
     room = "2.2.6"
