@@ -1,12 +1,12 @@
 package info.dbprefs.sample
 
+import android.app.Application
 import android.os.StrictMode
 import android.util.Log
-import androidx.multidex.MultiDexApplication
 import info.dbprefs.lib.DbPreferences
 
 
-class MyApplication : MultiDexApplication() {
+class MyApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
